@@ -1,5 +1,10 @@
 # BETA
 This repository is an app marketplace for Cosmos. It is directly converted from Other app stores.
+# STATUS
+
+222/339 Show Up and have Icons and Compose
+173/339 Have been tested elsewhere (LilKidsuave,Cosmos Offical,TinyActive)
+
 
 # How to use
 
