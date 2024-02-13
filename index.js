@@ -13,6 +13,7 @@ for (const file of servapps) {
     if (fs.existsSync(`./servapps/${file}/description.json`)) {
       const servapp = require(`./servapps/${file}/description.json`);
     }
+    }
     catch (error) {
     if (error.message.includes('Cannot find module')) {
       console.error(`Description.json not found for ${file}. Skipping.`);
