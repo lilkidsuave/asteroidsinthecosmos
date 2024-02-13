@@ -23,7 +23,7 @@ for (const file of servapps) {
         continue;
     }
   }
-    const servapp = require(`./servapps/${file}/description.json`);
+    servapp = require(`./servapps/${file}/description.json`);
     servapp.id = file;
     servapp.screenshots = [];
     servapp.artefacts = {};
