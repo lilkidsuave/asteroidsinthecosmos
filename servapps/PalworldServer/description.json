@@ -5,5 +5,5 @@
     "repository": "https://github.com/thijsvanloef/palworld-server-docker",
     "image": "https://hub.docker.com/r/thijsvanloef/palworld-server-docker",
     "documentation": ["Gaming"],
-    "supported_cpu_architectures": ["amd64", "arm64"]
+    "supported_architectures": ["amd64", "arm64"]
 }
