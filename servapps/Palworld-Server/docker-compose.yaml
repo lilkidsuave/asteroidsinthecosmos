@@ -35,7 +35,7 @@ cosmos-installer:
       configure your server:
       https://github.com/thijsvanloef/palworld-server-docker"
     - type: warning
-      label:"You must open UDP PORT 8211 for Gameplay, and UDP PORT 27015 to show up in the community server tab"
+      label: "You must open UDP PORT 8211 for Gameplay, and UDP PORT 27015 to show up in the community server tab"
 name: Palworld-Server
 services:
   "{ServiceName}":
