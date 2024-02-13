@@ -11,7 +11,7 @@ for (const file of servapps) {
   try {
     try {
       if (fs.existsSync(`./servapps/${file}/description.json`)) {
-        const servapp = require(`./servapps/${file}/description.json`);
+        const servapp = JSON.parse(fs.readFileSync(`./servapps/${file}/description.json`));
     }
     }
     catch (error) {
@@ -23,7 +23,7 @@ for (const file of servapps) {
         continue;
     }
   }
-    const servapp = require(`./servapps/${file}/description.json`);
+    const servapp = JSON.parse(fs.readFileSync(`./servapps/${file}/description.json`));
     servapp.id = file;
     servapp.screenshots = [];
     servapp.artefacts = {};
