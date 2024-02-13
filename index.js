@@ -9,6 +9,20 @@ const servapps = fs.readdirSync('./servapps').filter(file => fs.lstatSync(`./ser
 let servappsJSON = []
 for (const file of servapps) {
   try {
+    try {
+      if (fs.existsSync(`./servapps/${file}/description.json`)) {
+        const servapp = require(`./servapps/${file}/description.json`);
+    }
+    }
+    catch (error) {
+      if (error.message.includes('Cannot find module')) {
+        console.error(`Description.json not found for ${file}. Skipping.`);
+        continue;
+    } else {
+        console.error(`Error loading description.json for ${file}: Skipping`, error.message);
+        continue;
+    }
+  }
     const servapp = require(`./servapps/${file}/description.json`);
     servapp.id = file;
     servapp.screenshots = [];
@@ -31,7 +45,7 @@ for (const file of servapps) {
     if (fs.existsSync(`./servapps/${file}/icon.png`)) {
       servapp.icon = primaryIconSource;
      }
-    //TinyActive Format, Inconsistent naming and format
+    //TinyActive Format
     let alternativeIconSource = null;
     const alternativeIconPath = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/logo`;
     
@@ -60,7 +74,7 @@ for (const file of servapps) {
     servappsJSON.push(servapp)
   } catch (error) {
       if (error.message.includes('is not defined')) {
-      console.error(`Error loading)define) description.json for ${file}: Skipping`);
+      console.error(`Error loading description.json for ${file}: Skipping`);
       continue;
     } else {
       console.error(`Unknown Error`, error.message);
