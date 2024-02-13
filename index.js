@@ -40,7 +40,8 @@ for (const file of servapps) {
     }
     const primaryIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/icon.png`;
     let alternativeIconSource = null;
-    const alternativeIconPath = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/logo`;
+    const alternativeIconPath = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/logo/`;
+    
     if (fs.existsSync(alternativeIconPath)) {
       const pngFiles = fs.readdirSync(alternativeIconPath).filter(file => file.toLowerCase().endsWith('.png'));
       if (pngFiles.length > 0) {
