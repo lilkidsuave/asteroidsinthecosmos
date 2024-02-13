@@ -25,7 +25,8 @@ for (const file of servapps) {
     servapp.id = file;
     servapp.screenshots = [];
     servapp.artefacts = {};
-
+    servapp.icon = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/icon.png`
+    servapp.compose = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/docker-compose.yml`
     // list all screenshots in the directory servapps/${file}/screenshots
     if (fs.existsSync(`./servapps/${file}/screenshots`)) {
       const screenshots = fs.readdirSync(`./servapps/${file}/screenshots`);
@@ -40,8 +41,6 @@ for (const file of servapps) {
         servapp.artefacts[artefact] = (`https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/artefacts/${artefact}`);
       }
     }
-    servapp.icon = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/icon.png`
-    servapp.compose = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/docker-compose.yml`
     servappsJSON.push(servapp)
   } catch (error) {
     if (error.message.includes('Cannot find module')) {
