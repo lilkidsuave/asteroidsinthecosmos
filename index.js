@@ -9,9 +9,19 @@ const servapps = fs.readdirSync('./servapps').filter(file => fs.lstatSync(`./ser
 let servappsJSON = []
 for (const file of servapps) {
   try {
+    try {
     if (fs.existsSync(`./servapps/${file}/description.json`)) {
       const servapp = require(`./servapps/${file}/description.json`);
     }
+    catch (error) {
+    if (error.message.includes('Cannot find module')) {
+      console.error(`Description.json not found for ${file}. Skipping.`);
+      continue;
+    } else {
+      console.error(`Error loading description.json for ${file}: Skipping`, error.message);
+      continue;
+    }
+  }
     const servapp = require(`./servapps/${file}/description.json`);
     servapp.id = file;
     servapp.screenshots = [];
