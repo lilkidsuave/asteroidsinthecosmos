@@ -9,25 +9,37 @@ const servapps = fs.readdirSync('./servapps').filter(file => fs.lstatSync(`./ser
 let servappsJSON = []
 
 for (const file of servapps) {
-  const servapp = require(`./servapps/${file}/description.json`)
-  servapp.id = file
-  servapp.screenshots = [];
-  servapp.artefacts = {};
+  try {
+    const servapp = require(`./servapps/${file}/description.json`);
+    servapp.id = file;
+    servapp.screenshots = [];
+    servapp.artefacts = {};
 
-  // list all screenshots in the directory servapps/${file}/screenshots
-  if(fs.existsSync(`./servapps/${file}/screenshots`)) {
-    const screenshots = fs.readdirSync(`./servapps/${file}/screenshots`)
-    for (const screenshot of screenshots) {
-      servapp.screenshots.push(`https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/screenshots/${screenshot}`)
+    // list all screenshots in the directory servapps/${file}/screenshots
+    if (fs.existsSync(`./servapps/${file}/screenshots`)) {
+      const screenshots = fs.readdirSync(`./servapps/${file}/screenshots`);
+      for (const screenshot of screenshots) {
+        servapp.screenshots.push(`https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/screenshots/${screenshot}`);
+      }
+    }
+
+    if (fs.existsSync(`./servapps/${file}/artefacts`)) {
+      const artefacts = fs.readdirSync(`./servapps/${file}/artefacts`);
+      for (const artefact of artefacts) {
+        servapp.artefacts[artefact] = (`https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/artefacts/${artefact}`);
+      }
+    }
+
+    servappsJSON.push(servapp);
+  } catch (error) {
+    if (error.message.includes('Cannot find module')) {
+      console.error(`Description.json not found for ${file}. Skipping.`);
+    } else {
+      console.error(`Error loading description.json for ${file}:`, error.message);
+      // Handle the error as needed or simply let the loop proceed to the next iteration
     }
   }
-
-  if(fs.existsSync(`./servapps/${file}/artefacts`)) {
-    const artefacts = fs.readdirSync(`./servapps/${file}/artefacts`)
-    for(const artefact of artefacts) {
-      servapp.artefacts[artefact] = (`https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/artefacts/${artefact}`)
-    }
-  }
+}
 
   servapp.icon = `https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/icon.png`
   servapp.compose = `https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/docker-compose.yml`
