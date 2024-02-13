@@ -43,9 +43,11 @@ for (const file of servapps) {
     servappsJSON.push(servapp)
   } catch (error) {
       if (error.message.includes('is not defined')) {
-      console.error(`Error: servapp is not defined for ${file}. Skipping.`);
+      console.error(`Error: Missing  ${file}. Skipping.`);
+      continue;
     } else {
-      console.error(`Error loading description.json for ${file}:`, error.message);
+      console.error(`Unknown Error`, error.message);
+      continue;
     }
   }
 }
