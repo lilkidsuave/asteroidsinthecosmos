@@ -39,23 +39,25 @@ for (const file of servapps) {
       }
     }
     const primaryIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/icon.png`;
-    const alternativeIconSource = findAlternativeImage(`https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/logo`); // Find PNG files only in this path 
+    let alternativeIconSource = null;
+    const alternativeIconPath = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/logo`;
+    if (fs.existsSync(alternativeIconPath)) {
+      const pngFiles = fs.readdirSync(alternativeIconPath).filter(file => file.toLowerCase().endsWith('.png'));
+      if (pngFiles.length > 0) {
+        alternativeIconSource = `${alternativeIconPath}/${pngFiles[0]}`;
+    }
+  }
+    servapp.icon = fs.existsSync(primaryIconSource) ? primaryIconSource : alternativeIconSource;
     const primaryComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/docker-compose.yml`;
     const alternativeComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/cosmos-compose.yml`; 
-    servapp.icon = fs.existsSync(primaryIconSource) ? primaryIconSource : alternativeIconSource;
     servapp.compose = fs.existsSync(primaryComposeSource) ? primaryComposeSource : alternativeComposeSource; 
     servappsJSON.push(servapp)
-    function findAlternativeImage(directory) {
-      const files = fs.readdirSync(directory);
-      const pngFiles = files.filter(file => file.toLowerCase().endsWith('.png'));
-      return pngFiles.length > 0 ? `${directory}/${pngFiles[0]}` : null;
-}
   } catch (error) {
       if (error.message.includes('is not defined')) {
       console.error(`Error: servapp is not defined for ${file}. Skipping.`);
       continue;
     } else if(error.message.includes('no such file or directory')){
-      console.error(`Error: One or more con sources are missing ${file}.`);
+      console.error(`Error: One or more icon sources are missing for ${file}.`);
       }
       else {
       console.error(`Unknown Error`, error.message);
