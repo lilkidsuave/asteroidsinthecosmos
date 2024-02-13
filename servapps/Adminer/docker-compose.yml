@@ -1,0 +1,15 @@
+cosmos-installer: null
+name: adminer
+services:
+  "{ServiceName}":
+    image: adminer:4.8.1
+    deploy:
+      resources:
+        reservations:
+          memory: 32M
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

@@ -1,0 +1,32 @@
+cosmos-installer: null
+name: pihole
+services:
+  "{ServiceName}":
+    environment:
+      PROXY_LOCATION: pi.hole
+      TZ: auto
+      VIRTUAL_HOST: pi.hole
+      WEBPASSWORD: casaos
+    image: pihole/pihole:2023.11.0
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - 8800:80/tcp
+      - 53:53/tcp
+      - 53:53/udp
+      - 67:67/udp
+      - 547:547/udp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/etc/pihole/"
+        target: /etc/pihole
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/etc/dnsmasq.d/"
+        target: /etc/dnsmasq.d
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

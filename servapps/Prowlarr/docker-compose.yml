@@ -1,0 +1,24 @@
+cosmos-installer: null
+name: prowlarr
+services:
+  "{ServiceName}":
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: linuxserver/prowlarr:1.9.4
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - 9696:9696/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/prowlarr/config"
+        target: /config
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

@@ -1,0 +1,28 @@
+cosmos-installer: null
+name: anaconda3
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: continuumio/anaconda3:2023.09-0
+    network_mode: bridge
+    restart: unless-stopped
+    environment:
+      - LANG=C.UTF-8
+      - LC_ALL=C.UTF-8
+      - PATH=/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    ports:
+      - 8888:8888/tcp
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/notebooks"
+        target: /opt/notebooks
+    command:
+      - /bin/bash
+      - -c
+      - conda install -c conda-forge jupyterlab -y --quiet && jupyter lab
+        --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser
+        --allow-root
+    labels:
+      icon: https://cdn.jsdelivr.net/gh/LisonEvf/CasaOS-AppStore@main/Apps/Anaconda3/icon.png
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

@@ -1,0 +1,20 @@
+cosmos-installer: null
+name: uptimekuma
+services:
+  "{ServiceName}":
+    image: louislam/uptime-kuma:1.23.10-alpine
+    deploy:
+      resources:
+        reservations:
+          memory: 128M
+    network_mode: bridge
+    ports:
+      - 3001:3001/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/app/data"
+        target: /app/data
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

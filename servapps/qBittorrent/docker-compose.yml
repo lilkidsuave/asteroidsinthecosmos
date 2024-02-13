@@ -1,0 +1,28 @@
+cosmos-installer: null
+name: qbittorrent
+services:
+  "{ServiceName}":
+    environment:
+      PGID: 1000
+      PUID: 1000
+      TZ: auto
+      UMASK: "002"
+    image: hotio/qbittorrent:release-4.6.2
+    deploy:
+      resources:
+        reservations:
+          memory: 256M
+    network_mode: bridge
+    ports:
+      - 8181:8080/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/config"
+        target: /config
+      - type: bind
+        source: /DATA
+        target: /DATA
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

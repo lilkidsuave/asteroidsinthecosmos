@@ -1,0 +1,30 @@
+cosmos-installer: null
+name: bazarr
+services:
+  "{ServiceName}":
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: linuxserver/bazarr:1.2.2
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - 6767:6767/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/Media/Movies"
+        target: /movies
+      - type: bind
+        source: "{DefaultDataPath}/Media/TV Shows"
+        target: /tv
+      - type: bind
+        source: "{DefaultDataPath}/AppData/bazarr/config"
+        target: /config
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

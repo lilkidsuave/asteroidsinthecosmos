@@ -1,0 +1,26 @@
+cosmos-installer: null
+name: handbrake
+services:
+  "{ServiceName}":
+    image: jlesage/handbrake:v23.06.1
+    network_mode: bridge
+    ports:
+      - 5800:5800/tcp
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA
+        target: /storage
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/watch"
+        target: /watch
+      - type: bind
+        source: "{DefaultDataPath}/Media"
+        target: /output
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/config"
+        target: /config
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

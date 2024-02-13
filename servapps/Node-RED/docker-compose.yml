@@ -1,0 +1,20 @@
+cosmos-installer: null
+name: node-red
+services:
+  "{ServiceName}":
+    image: nodered/node-red:3.1.0-18
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: host
+    ports:
+      - 1880:1880/tcp
+    restart: always
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/data"
+        target: /data
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

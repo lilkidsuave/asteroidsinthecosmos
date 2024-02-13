@@ -1,0 +1,28 @@
+cosmos-installer: null
+name: jdownloader2
+services:
+  "{ServiceName}":
+    image: jlesage/jdownloader-2:latest
+    restart: unless-stopped
+    environment:
+      - USER_ID=1000
+      - GROUP_ID=1000
+      - TZ=auto
+      - MYJDOWNLOADER_EMAIL=$MYJDOWNLOADER_EMAIL
+      - MYJDOWNLOADER_PASSWORD=$MYJDOWNLOADER_PASSWORD
+      - MYJDOWNLOADER_DEVICE_NAME=$MYJDOWNLOADER_DEVICE_NAME
+      - JDOWNLOADER_HEADLESS=$JDOWNLOADER_HEADLESS
+    ports:
+      - 5800:5800/tcp
+      - 5900:5900/tcp
+      - 3129:3129/tcp
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/jdownloader2/config"
+        target: /config
+      - type: bind
+        source: "{DefaultDataPath}/Downloads"
+        target: /output
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

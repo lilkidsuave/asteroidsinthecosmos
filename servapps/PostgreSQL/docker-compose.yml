@@ -1,0 +1,26 @@
+cosmos-installer: null
+name: postgresql
+services:
+  "{ServiceName}":
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: auto
+      POSTGRES_USER: casaos
+      POSTGRES_PASSWORD: casaos
+      POSTGRES_DB: casaos
+    image: postgres:15.3
+    deploy:
+      resources:
+        reservations:
+          memory: 2048M
+    restart: unless-stopped
+    ports:
+      - 5432:5432/tcp
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/postgresql/data"
+        target: /var/lib/postgresql/data
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

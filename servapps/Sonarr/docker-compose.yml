@@ -1,0 +1,30 @@
+cosmos-installer: null
+name: sonarr
+services:
+  "{ServiceName}":
+    environment:
+      PGID: 1000
+      PUID: 1000
+      TZ: auto
+    image: linuxserver/sonarr:3.0.10
+    deploy:
+      resources:
+        reservations:
+          memory: 256M
+    network_mode: bridge
+    ports:
+      - 8989:8989/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/config"
+        target: /config
+      - type: bind
+        source: "{DefaultDataPath}/Media/TV Shows"
+        target: /tv
+      - type: bind
+        source: "{DefaultDataPath}/Downloads"
+        target: /downloads
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

@@ -1,0 +1,27 @@
+cosmos-installer: null
+name: smokeping
+services:
+  "{ServiceName}":
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: linuxserver/smokeping:2.8.2
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - 10280:80/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/smokeping/config"
+        target: /config
+      - type: bind
+        source: "{DefaultDataPath}/AppData/smokeping/data"
+        target: /data
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

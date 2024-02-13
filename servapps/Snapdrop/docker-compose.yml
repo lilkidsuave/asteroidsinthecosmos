@@ -1,0 +1,22 @@
+cosmos-installer: null
+name: snapdrop
+services:
+  "{ServiceName}":
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=auto
+    image: linuxserver/snapdrop:version-eac78009
+    network_mode: bridge
+    ports:
+      - 443:443/tcp
+      - 89:80/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/config"
+        target: /config
+    privileged: false
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0
