@@ -50,7 +50,7 @@ for (const file of servapps) {
     const alternativeIconPath = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/logo`;
     
     if (fs.existsSync(`./servapps/${file}/logo`)) {
-      const pngFiles = fs.readdirSync(`./servapps/${file}/logo`).filter(file => file.toLowerCase().endsWith('.png'));
+      const pngFiles = fs.readdirSync(`./servapps/${file}/logo`);
       if (pngFiles.length > 0) {
       alternativeIconSource = `${alternativeIconPath}/${pngFiles[0]}`;
     }
