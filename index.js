@@ -39,12 +39,17 @@ for (const file of servapps) {
       }
     }
     const primaryIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/icon.png`;
-    const alternativeIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/logo/icon.png`; 
+    const alternativeIconSource = findAlternativeImage(`https://lilkidsuave.github.io/cosmos-casaos-store/servapps/app/logo/i/${file}`); // Find PNG files only in this path 
     const primaryComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/docker-compose.yml`;
     const alternativeComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/cosmos-compose.yml`; 
     servapp.icon = fs.existsSync(`./servapps/${file}/icon.png`) ? primaryIconSource : alternativeIconSource;
     servapp.compose = fs.existsSync(`./servapps/${file}/docker-compose.yml`) ? primaryComposeSource : alternativeComposeSource; 
     servappsJSON.push(servapp)
+    function findAlternativeImage(directory) {
+      const files = fs.readdirSync(directory);
+      const pngFiles = files.filter(file => file.toLowerCase().endsWith('.png'));
+      return pngFiles.length > 0 ? `${directory}/${pngFiles[0]}` : null;
+}
   } catch (error) {
       if (error.message.includes('is not defined')) {
       console.error(`Error: servapp is not defined for ${file}. Skipping.`);
