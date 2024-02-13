@@ -38,12 +38,30 @@ for (const file of servapps) {
         servapp.artefacts[artefact] = (`https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/artefacts/${artefact}`);
       }
     }
+    
     const primaryIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/icon.png`;
-    const alternativeIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/logo/icon.png`; 
+    if (fs.existsSync(primaryIconSource)) {
+      servapp.icon = primaryIconSource;
+     }
+    
+    let alternativeIconSource = null;
+    const alternativeIconPath = `https://lilkidsuave.github.io/asteroidsinthecosmose/servapps/${file}/logo/`;
+    
+    if (fs.existsSync(alternativeIconPath)) {
+      const pngFiles = fs.readdirSync(alternativeIconPath).filter(file => file.toLowerCase().endsWith('.png'));
+      if (pngFiles.length > 0) {
+      alternativeIconSource = `${alternativeIconPath}${pngFiles[0]}`;
+    }
+      servapp.icon = alternativeIconSource;
+  }
     const primaryComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/docker-compose.yml`;
+    if (fs.existsSync(primaryComposeSource)) {
+      servapp.compose = primaryComposeSource;
+  }
     const alternativeComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/cosmos-compose.yml`; 
-    servapp.icon = fs.existsSync(`./servapps/${file}/icon.png`) ? primaryIconSource : alternativeIconSource;
-    servapp.compose = fs.existsSync(`./servapps/${file}/docker-compose.yml`) ? primaryComposeSource : alternativeComposeSource; 
+    if (fs.existsSync(alternativeComposeSource)) {
+      servapp.compose = alternativeComposeSource;
+  }
     servappsJSON.push(servapp)
   } catch (error) {
       if (error.message.includes('is not defined')) {
