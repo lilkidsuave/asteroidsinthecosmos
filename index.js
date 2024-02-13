@@ -7,7 +7,7 @@ const configFile = require('./config.json')
 const servapps = fs.readdirSync('./servapps').filter(file => fs.lstatSync(`./servapps/${file}`).isDirectory())
 
 let servappsJSON = []
-int iteration = 1;
+let iteration = 1;
 for (const file of servapps) {
   try {
     try {
@@ -17,7 +17,7 @@ for (const file of servapps) {
     if (error.message.includes('Cannot find module')) {
       console.error(`Description.json not found for ${file}. Setting a Placeholder.`);
       const servapp = require(`./servapps/Placeholders/description.json`);
-      iteration++;
+      iteration = iteration++;
     } else {
       console.error(`Error loading description.json for ${file}:`, error.message);
     }
