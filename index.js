@@ -54,7 +54,10 @@ for (const file of servapps) {
       if (error.message.includes('is not defined')) {
       console.error(`Error: servapp is not defined for ${file}. Skipping.`);
       continue;
-    } else {
+    } else if(error.message.includes('no such file or directory')){
+      console.error(`Error: One or more con sources are missing ${file}.`);
+      }
+      else {
       console.error(`Unknown Error`, error.message);
       continue;
     }
