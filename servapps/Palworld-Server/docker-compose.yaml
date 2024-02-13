@@ -1,0 +1,32 @@
+cosmos-installer: {}
+name: Palworld-Server
+services:
+  "{ServiceName}":
+    image: thijsvanloef/palworld-server-docker:latest
+    restart: unless-stopped
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+    stop_grace_period: 30s  # Set to however long you are willing to wait for the container to gracefully stop
+    ports:
+      - 8211:8211/udp
+      - 27015:27015/udp  # Required if you want your server to show up in the community servers tab
+    environment:
+      PORT: 8211  # Optional but recommended
+      PLAYERS: 16  # Optional but recommended
+      SERVER_PASSWORD: "worldofpals"  # Optional but recommended
+      MULTITHREADING: true
+      RCON_ENABLED: true
+      RCON_PORT: 25575
+      TZ: Auto
+      ADMIN_PASSWORD: "adminPasswordHere"
+      COMMUNITY: false  # Enable this if you want your server to show up in the community servers tab, USE WITH SERVER_PASSWORD!
+      SERVER_NAME: "World of Pals"
+      SERVER_DESCRIPTION: "palworld-server-docker by Thijs van Loef"
+      volumes:
+        type: volume
+        source: "{ServiceName}-data"
+        target: /palworld/
+      labels:
+        cosmos-force-network-secured: true
+        cosmos-auto-update: true
+        cosmos-icon: https://lilkidsuave.github.io/asteroidsinthecosmos/Palworld-Server/icon.png
