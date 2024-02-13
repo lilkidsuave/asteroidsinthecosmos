@@ -58,7 +58,7 @@ for (const file of servapps) {
     if (fs.existsSync(primaryComposeSource)) {
       servapp.compose = primaryComposeSource;
   }
-    const alternativeComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/cosmos-compose.yml`; 
+    const alternativeComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/cosmos-compose.json`; 
     if (fs.existsSync(alternativeComposeSource)) {
       servapp.compose = alternativeComposeSource;
   }
