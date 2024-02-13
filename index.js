@@ -35,7 +35,6 @@ for (const file of servapps) {
   } catch (error) {
     if (error.message.includes('Cannot find module')) {
       console.error(`Description.json not found for ${file}. Skipping.`);
-      continue; // Skip to the next iteration
     } else if (error.message.includes('is not defined')) {
       console.error(`Error: servapp is not defined for ${file}. Skipping.`);
       continue; // Skip to the next iteration
