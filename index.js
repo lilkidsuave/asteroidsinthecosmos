@@ -19,16 +19,19 @@ for (const file of servapps) {
     if (fs.existsSync(`./servapps/${file}/screenshots`)) {
       const screenshots = fs.readdirSync(`./servapps/${file}/screenshots`);
       for (const screenshot of screenshots) {
-        servapp.screenshots.push(`https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/screenshots/${screenshot}`);
+        servapp.screenshots.push(`https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/screenshots/${screenshot}`);
       }
     }
 
     if (fs.existsSync(`./servapps/${file}/artefacts`)) {
       const artefacts = fs.readdirSync(`./servapps/${file}/artefacts`);
       for (const artefact of artefacts) {
-        servapp.artefacts[artefact] = (`https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/artefacts/${artefact}`);
+        servapp.artefacts[artefact] = (`https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/artefacts/${artefact}`);
       }
     }
+    servapp.icon = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/icon.png`
+    servapp.compose = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/docker-compose.yml`
+    servappsJSON.push(servapp)
   } catch (error) {
     if (error.message.includes('Cannot find module')) {
       console.error(`Description.json not found for ${file}. Skipping.`);
@@ -41,9 +44,6 @@ for (const file of servapps) {
       continue; // Skip to the next iteration
     }
   }
-  servapp.icon = `https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/icon.png`
-  servapp.compose = `https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/docker-compose.yml`
-  servappsJSON.push(servapp)
 }
 
 // add showcase
@@ -63,10 +63,10 @@ for (const servapp of servappsJSON) {
   servapp.compose = `http://localhost:3000/servapps/${servapp.id}/docker-compose.yml`
   servapp.icon = `http://localhost:3000/servapps/${servapp.id}/icon.png`
   for (let i = 0; i < servapp.screenshots.length; i++) {
-    servapp.screenshots[i] = servapp.screenshots[i].replace('https://lilkidsuave.github.io/cosmos-casaos-store', 'http://localhost:3000')
+    servapp.screenshots[i] = servapp.screenshots[i].replace('https://lilkidsuave.github.io/asteroidsinthecosmos', 'http://localhost:3000')
   }
   for (const artefact in servapp.artefacts) {
-    servapp.artefacts[artefact] = servapp.artefacts[artefact].replace('https://lilkidsuave.github.io/cosmos-casaos-store', 'http://localhost:3000')
+    servapp.artefacts[artefact] = servapp.artefacts[artefact].replace('https://lilkidsuave.github.io/asteroidsinthecosmos', 'http://localhost:3000')
   }
 }
 
