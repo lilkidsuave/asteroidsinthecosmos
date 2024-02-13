@@ -1,3 +1,4 @@
+name: Palworld-Server
 cosmos-installer: 
   form:
     - name: "name"
@@ -36,7 +37,6 @@ cosmos-installer:
       https://github.com/thijsvanloef/palworld-server-docker"
     - type: warning
       label: "You must open UDP PORT 8211 for Gameplay, and UDP PORT 27015 to show up in the community server tab"
-name: Palworld-Server
 services:
   "{ServiceName}":
     image: thijsvanloef/palworld-server-docker:latest
@@ -62,7 +62,7 @@ services:
     volumes:
       - type: volume
         source: "{ServiceName}-data"
-        target: "/palworld/"
+        target: /palworld/
     labels:
       cosmos-auto-update: true
       cosmos-icon: https://lilkidsuave.github.io/asteroidsinthecosmos/Palworld-Server/icon.png
