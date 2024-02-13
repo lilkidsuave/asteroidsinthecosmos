@@ -38,8 +38,12 @@ for (const file of servapps) {
         servapp.artefacts[artefact] = (`https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/artefacts/${artefact}`);
       }
     }
-    servapp.icon = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/icon.png`
-    servapp.compose = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/docker-compose.yml`
+    const primaryIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/icon.png`;
+    const alternativeIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/logo/icon.png`; 
+    const primaryComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/docker-compose.yml`;
+    const alternativeComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/cosmos-compose.yml`; 
+    servapp.icon = fs.existsSync(`./servapps/${file}/icon.png`) ? primaryIconSource : alternativeIconSource;
+    servapp.compose = fs.existsSync(`./servapps/${file}/docker-compose.yml`) ? primaryComposeSource : alternativeComposeSource; 
     servappsJSON.push(servapp)
   } catch (error) {
       if (error.message.includes('is not defined')) {
