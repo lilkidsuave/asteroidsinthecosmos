@@ -29,8 +29,6 @@ for (const file of servapps) {
         servapp.artefacts[artefact] = (`https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/artefacts/${artefact}`);
       }
     }
-
-    servappsJSON.push(servapp);
   } catch (error) {
     if (error.message.includes('Cannot find module')) {
       console.error(`Description.json not found for ${file}. Skipping.`);
