@@ -42,8 +42,8 @@ for (const file of servapps) {
     const alternativeIconSource = findAlternativeImage(`https://lilkidsuave.github.io/cosmos-casaos-store/servapps/app/logo/i/${file}`); // Find PNG files only in this path 
     const primaryComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/docker-compose.yml`;
     const alternativeComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/cosmos-compose.yml`; 
-    servapp.icon = fs.existsSync(`./servapps/${file}/icon.png`) ? primaryIconSource : alternativeIconSource;
-    servapp.compose = fs.existsSync(`./servapps/${file}/docker-compose.yml`) ? primaryComposeSource : alternativeComposeSource; 
+    servapp.icon = fs.existsSync(primaryIconSource) ? primaryIconSource : alternativeIconSource;
+    servapp.compose = fs.existsSync(primaryComposeSource) ? primaryComposeSource : alternativeComposeSource; 
     servappsJSON.push(servapp)
     function findAlternativeImage(directory) {
       const files = fs.readdirSync(directory);
