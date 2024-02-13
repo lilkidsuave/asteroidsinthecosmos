@@ -10,7 +10,7 @@ let servappsJSON = []
 for (const file of servapps) {
   try {
     try {
-          const servapp = require(`./servapps/${file}/description.json`);
+      const servapp = require(`./servapps/${file}/description.json`);
     }
     catch (error) {
     if (error.message.includes('Cannot find module')) {
