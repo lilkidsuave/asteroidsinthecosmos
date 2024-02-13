@@ -23,7 +23,6 @@ for (const file of servapps) {
       continue;
     }
   }
-    const servapp = require(`./servapps/${file}/description.json`);
     servapp.id = file;
     servapp.screenshots = [];
     servapp.artefacts = {};
@@ -47,12 +46,12 @@ for (const file of servapps) {
      }
     
     let alternativeIconSource = null;
-    const alternativeIconPath = `https://lilkidsuave.github.io/asteroidsinthecosmose/servapps/${file}/logo/`;
+    const alternativeIconPath = `https://lilkidsuave.github.io/asteroidsinthecosmose/servapps/${file}/logo`;
     
     if (fs.existsSync(`./servapps/${file}/logo`)) {
       const pngFiles = fs.readdirSync(`./servapps/${file}/logo`).filter(file => file.toLowerCase().endsWith('.png'));
       if (pngFiles.length > 0) {
-      alternativeIconSource = `${alternativeIconPath}${pngFiles[0]}`;
+      alternativeIconSource = `${alternativeIconPath}/${pngFiles[0]}`;
     }
       servapp.icon = alternativeIconSource;
   }
