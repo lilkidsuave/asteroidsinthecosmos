@@ -12,29 +12,26 @@ cosmos-installer:
       label: "What Password do you want for the admin?"
       initialValue: "Password"
       type: "text"
-    - name: community
-      label: Public or Private? (true,false)
+    - name: "community"
+      label: "Public or Private? (true,false)"
       initialValue: "false"
-      type: select
+      type: "select"
       options:
         - - "true"
-          - Yes
+          - "Yes"
         - - "false"
-          - No
-    - name: players
-      label: How many people can join this server? (Max 32)
+          - "No"
+    - name: "players"
+      label: "How many people can join this server? (Max 32)"
       initialValue: 16
-      type: text
+      type: "text"
     - name: "description"
       label: "How would you describe the server?"
       initialValue: "MOHAWK DINOSAUR"
       type: "text"
-    - type: warning
-      label: "As it is impossible to include all the configuration options in the
-      installer, you can check the docs for more information on how to
-      configure your server:
-      https://github.com/thijsvanloef/palworld-server-docker"
-    - type: warning
+    - type: "warning"
+      label: "As it is impossible to include all the configuration options in the installer, you can check the docs for more information on how toconfigure your server https://github.com/thijsvanloef/palworld-server-docker"
+    - type: "warning"
       label: "You must open UDP PORT 8211 for Gameplay, and UDP PORT 27015 to show up in the community server tab"
 services:
   "{ServiceName}":
@@ -53,7 +50,7 @@ services:
       MULTITHREADING: true
       RCON_ENABLED: true
       RCON_PORT: 25575
-      TZ: Auto
+      TZ: "Auto"
       ADMIN_PASSWORD: "{Context.adminpassword}"
       COMMUNITY: "{Context.community}"  # Enable this if you want your server to show up in the community servers tab, USE WITH SERVER_PASSWORD!
       SERVER_NAME: "{Context.name}"
