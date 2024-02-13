@@ -1,4 +1,3 @@
-name: Palworld-Server
 cosmos-installer: 
   form:
     - name: "name"
