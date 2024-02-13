@@ -1,5 +1,4 @@
-# Casaos store for cosmos
-
+# NOT READY
 This repository is an app marketplace for Cosmos. It is directly converted from the CasaOS app store.
 
 # How to use
