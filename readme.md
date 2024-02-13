@@ -11,4 +11,4 @@ https://lilkidsuave.github.io/asteroidsinthecosmos/index.json
 
 # Disclaimer
 
-Unlike the original Cosmos marketplace, this contains the CasaOS setup of the apps. This means no reverse-proxy / HTTPS are setup for them (instead the port are directly exposed). For the majority of the apps, you can close the ports yourself, and press the "new url" button on the container. Cosmos will be able to automatically suggest a working reverse proxy config for most containers out of the box.
+Unlike the original Cosmos marketplace, this contains the CasaOS/RunTipi/TinyActive/LilKidSuave setup of the apps. This means things may not be 100% functional as of now.
