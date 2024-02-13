@@ -10,7 +10,18 @@ let servappsJSON = []
 
 for (const file of servapps) {
   try {
-    const servapp = require(`./servapps/${file}/description.json`);
+    try {
+          const servapp = require(`./servapps/${file}/description.json`);
+    }
+    catch (error) {
+    if (error.message.includes('Cannot find module')) {
+      console.error(`Description.json not found for ${file}. Skipping.`);
+    } else if (error.message.includes('is not defined')) {
+      console.error(`Error: servapp is not defined for ${file}. Skipping.`);
+    } else {
+      console.error(`Error loading description.json for ${file}:`, error.message);
+    }
+  }
     servapp.id = file;
     servapp.screenshots = [];
     servapp.artefacts = {};
