@@ -36,7 +36,7 @@ for (const file of servapps) {
       console.error(`Description.json not found for ${file}. Skipping.`);
     } else {
       console.error(`Error loading description.json for ${file}:`, error.message);
-      // Handle the error as needed or simply let the loop proceed to the next iteration
+      continue;
     }
   }
   servapp.icon = `https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/icon.png`
