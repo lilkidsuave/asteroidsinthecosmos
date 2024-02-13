@@ -49,20 +49,20 @@ services:
       - 27015:27015/udp  # Required if you want your server to show up in the community servers tab
     environment:
       PORT: 8211  # Optional but recommended
-      PLAYERS: {Context.players}  # Optional but recommended
+      PLAYERS: "{Context.players}"  # Optional but recommended
       SERVER_PASSWORD: "{Context.password}"  # Optional but recommended
       MULTITHREADING: true
       RCON_ENABLED: true
       RCON_PORT: 25575
       TZ: Auto
       ADMIN_PASSWORD: "{Context.adminpassword}"
-      COMMUNITY: {Context.community}  # Enable this if you want your server to show up in the community servers tab, USE WITH SERVER_PASSWORD!
+      COMMUNITY: "{Context.community}"  # Enable this if you want your server to show up in the community servers tab, USE WITH SERVER_PASSWORD!
       SERVER_NAME: "{Context.name}"
       SERVER_DESCRIPTION: "{Context.description}"
-      volumes:
-        type: volume
-        source: "{ServiceName}-data"
-        target: /palworld/
-      labels:
-        cosmos-auto-update: true
-        cosmos-icon: https://lilkidsuave.github.io/asteroidsinthecosmos/Palworld-Server/icon.png
+    volumes:
+      type: volume
+      source: "{ServiceName}-data"
+      target: "/palworld/"
+    labels:
+      cosmos-auto-update: true
+      cosmos-icon: https://lilkidsuave.github.io/asteroidsinthecosmos/Palworld-Server/icon.png
