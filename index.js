@@ -9,19 +9,9 @@ const servapps = fs.readdirSync('./servapps').filter(file => fs.lstatSync(`./ser
 let servappsJSON = []
 for (const file of servapps) {
   try {
-    try {
+    if (fs.existsSync(`./servapps/${file}/description.json`)) {
       const servapp = require(`./servapps/${file}/description.json`);
     }
-    catch (error) {
-    if (error.message.includes('Cannot find module')) {
-      console.error(`Description.json not found for ${file}. Skipping.`);
-      continue;
-    } else {
-      console.error(`Error loading description.json for ${file}: Skipping`, error.message);
-      continue;
-    }
-  }
-    const servapp = require(`./servapps/${file}/description.json`);
     servapp.id = file;
     servapp.screenshots = [];
     servapp.artefacts = {};
@@ -40,32 +30,32 @@ for (const file of servapps) {
     }
     
     const primaryIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/icon.png`;
-    if (fs.existsSync(primaryIconSource)) {
+    if (fs.existsSync(`./servapps/${file}/icon.png`)) {
       servapp.icon = primaryIconSource;
      }
     
     let alternativeIconSource = null;
     const alternativeIconPath = `https://lilkidsuave.github.io/asteroidsinthecosmose/servapps/${file}/logo/`;
     
-    if (fs.existsSync(alternativeIconPath)) {
-      const pngFiles = fs.readdirSync(alternativeIconPath).filter(file => file.toLowerCase().endsWith('.png'));
+    if (fs.existsSync(`./servapps/${file}/logo`)) {
+      const pngFiles = fs.readdirSync(`./servapps/${file}/logo`).filter(file => file.toLowerCase().endsWith('.png'));
       if (pngFiles.length > 0) {
       alternativeIconSource = `${alternativeIconPath}${pngFiles[0]}`;
     }
       servapp.icon = alternativeIconSource;
   }
     const primaryComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/docker-compose.yml`;
-    if (fs.existsSync(primaryComposeSource)) {
+    if (fs.existsSync(`./servapps/${file}/docker-compose.yml`)) {
       servapp.compose = primaryComposeSource;
   }
     const alternativeComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/cosmos-compose.json`; 
-    if (fs.existsSync(alternativeComposeSource)) {
+    if (fs.existsSync(`./servapps/${file}/cosmos-compose.json`)) {
       servapp.compose = alternativeComposeSource;
   }
     servappsJSON.push(servapp)
   } catch (error) {
       if (error.message.includes('is not defined')) {
-      console.error(`Error: servapp is not defined for ${file}. Skipping.`);
+      console.error(`Error loading description.json for ${file}: Skipping`);
       continue;
     } else {
       console.error(`Unknown Error`, error.message);
