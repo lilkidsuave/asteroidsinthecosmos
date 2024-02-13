@@ -40,12 +40,12 @@ for (const file of servapps) {
         servapp.artefacts[artefact] = (`https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/artefacts/${artefact}`);
       }
     }
-    
+    //Cosmos Format
     const primaryIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/icon.png`;
     if (fs.existsSync(`./servapps/${file}/icon.png`)) {
       servapp.icon = primaryIconSource;
      }
-    
+    //TinyActive Format
     let alternativeIconSource = null;
     const alternativeIconPath = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/logo`;
     
@@ -56,10 +56,17 @@ for (const file of servapps) {
     }
       servapp.icon = alternativeIconSource;
   }
+    //RunTipi Format
+    const ThirdIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/metadata/logo.jpg`;
+    if (fs.existsSync(`./servapps/${file}/logo.jpg`)) {
+      servapp.icon = ThirdIconSource;
+     }
+    //Common Format,used by most
     const primaryComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/docker-compose.yml`;
     if (fs.existsSync(`./servapps/${file}/docker-compose.yml`)) {
       servapp.compose = primaryComposeSource;
   }
+    //Cosmos Legacy Format
     const alternativeComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/cosmos-compose.json`; 
     if (fs.existsSync(`./servapps/${file}/cosmos-compose.json`)) {
       servapp.compose = alternativeComposeSource;
