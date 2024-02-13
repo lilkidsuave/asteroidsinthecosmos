@@ -12,6 +12,7 @@ for (const file of servapps) {
     if (fs.existsSync(`./servapps/${file}/description.json`)) {
       const servapp = require(`./servapps/${file}/description.json`);
     }
+    const servapp = require(`./servapps/${file}/description.json`);
     servapp.id = file;
     servapp.screenshots = [];
     servapp.artefacts = {};
