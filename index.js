@@ -45,7 +45,7 @@ for (const file of servapps) {
     if (fs.existsSync(`./servapps/${file}/icon.png`)) {
       servapp.icon = primaryIconSource;
      }
-    //TinyActive Format
+    //TinyActive Format, Inconsistent naming and format
     let alternativeIconSource = null;
     const alternativeIconPath = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/logo`;
     
