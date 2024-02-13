@@ -39,11 +39,8 @@ for (const file of servapps) {
       // Handle the error as needed or simply let the loop proceed to the next iteration
     }
   }
-}
-
   servapp.icon = `https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/icon.png`
   servapp.compose = `https://lilkidsuave.github.io/cosmos-casaos-store/servapps/${file}/docker-compose.yml`
-
   servappsJSON.push(servapp)
 }
 
