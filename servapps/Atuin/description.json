@@ -1,7 +1,7 @@
 {
   "name": "Atuin",
-  "description": "Atuin - Task Management and Productivity Tool. Stay organized and boost your productivity with Atuin.",
-  "longDescription": "Atuin is a comprehensive task management and productivity tool designed to help users stay organized and enhance their productivity. Whether you're an individual or a team, Atuin provides the features you need to streamline your tasks and achieve your goals.",
+  "description": "Atuin - Command-Line History Revolution. Enhance your productivity with advanced context tracking and secure cross-device synchronization.",
+  "longDescription": "Atuin transforms your command-line experience by replacing the standard shell history with a robust SQLite database. It not only records your command history but also captures additional context, providing a deeper understanding of your interactions. Atuin takes productivity a step further with optional and fully encrypted synchronization of your command history between machines, facilitated by an Atuin server. Stay organized, boost productivity, and seamlessly manage your tasks with Atuin.",
   "tags": [
     "Productivity",
     "Task Management",
