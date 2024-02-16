@@ -1,0 +1,19 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:61208
+    environment:
+      - TZ=${TZ}
+      - GLANCES_OPT=-w
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    pid: host
+    image: nicolargo/glances:3.4.0.3-full
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

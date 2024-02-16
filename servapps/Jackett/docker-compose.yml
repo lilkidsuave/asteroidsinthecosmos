@@ -1,0 +1,28 @@
+cosmos-installer: null
+name: jackett
+services:
+  "{ServiceName}":
+    environment:
+      AUTO_UPDATE: "true"
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: linuxserver/jackett:0.21.1250
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - 9117:9117/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/config"
+        target: /config
+      - type: bind
+        source: "{DefaultDataPath}/Downloads"
+        target: /downloads
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

@@ -1,0 +1,17 @@
+cosmos-installer: null
+version: "3"
+services:
+  "{ServiceName}":
+    image: ghcr.io/jorenn92/maintainerr:2.0.2
+    container_name: "{ServiceName}"
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/opt/data
+    environment:
+      - TZ=${TZ}
+    ports:
+      - ${APP_PORT}:6246
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

@@ -1,0 +1,18 @@
+cosmos-installer: null
+version: "3.9"
+services:
+  "{ServiceName}":
+    image: zefhemel/silverbullet:0.7.1
+    container_name: "{ServiceName}"
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${APP_DATA_DIR}/space:/space
+    environment:
+      - SB_USER=${SB_USER}:${SB_PASSWORD}
+    ports:
+      - ${APP_PORT}:3000
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

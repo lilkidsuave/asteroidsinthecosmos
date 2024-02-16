@@ -1,0 +1,36 @@
+cosmos-installer: null
+name: openhab
+services:
+  "{ServiceName}":
+    environment:
+      CRYPTO_POLICY: unlimited
+      PGID: 1000
+      PUID: 1000
+    image: openhab/openhab:4.0.4
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      - type: bind
+        source: /etc/timezone
+        target: /etc/timezone
+        read_only: true
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/addons"
+        target: /openhab/addons
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/conf"
+        target: /openhab/conf
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/userdata"
+        target: /openhab/userdata
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

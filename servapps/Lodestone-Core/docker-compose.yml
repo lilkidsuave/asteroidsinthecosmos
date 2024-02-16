@@ -1,0 +1,17 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: ghcr.io/lodestone-team/lodestone_core:0.4.4
+    ports:
+      - ${APP_PORT}:16662
+      - 25565-25575:25565-25575
+    restart: unless-stopped
+    volumes:
+      - ${APP_DATA_DIR}/data/lodestone-data:/home/user/.lodestone
+      - ${APP_DATA_DIR}/data/lodestone-data:/root/.lodestone
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

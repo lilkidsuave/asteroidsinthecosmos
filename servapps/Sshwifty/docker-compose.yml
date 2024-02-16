@@ -1,0 +1,14 @@
+cosmos-installer: null
+version: "3.5"
+services:
+  "{ServiceName}":
+    image: niruix/sshwifty:0.3.6-beta-release
+    restart: unless-stopped
+    container_name: "{ServiceName}"
+    privileged: true
+    ports:
+      - ${APP_PORT}:8182
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

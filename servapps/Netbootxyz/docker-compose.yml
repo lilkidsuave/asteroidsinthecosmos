@@ -1,0 +1,17 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    image: lscr.io/linuxserver/netbootxyz:2.0.53
+    container_name: "{ServiceName}"
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/config
+      - ${APP_DATA_DIR}/data/assets:/assets
+    ports:
+      - ${APP_PORT}:3000
+      - 69:69/udp
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

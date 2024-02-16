@@ -1,0 +1,20 @@
+cosmos-installer: null
+name: ddns-go
+services:
+  "{ServiceName}":
+    image: jeessy/ddns-go:v5.6.6
+    network_mode: bridge
+    deploy:
+      resources:
+        reservations:
+          memory: 32M
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/config"
+        target: /root
+    ports:
+      - 9876:9876/tcp
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

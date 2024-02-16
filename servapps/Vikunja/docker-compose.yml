@@ -1,0 +1,64 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}-vikunja-db":
+    container_name: "{ServiceName}-vikunja-db"
+    image: postgres:14
+    environment:
+      POSTGRES_PASSWORD: ${VIKUNJA_DB_PASSWORD}
+      POSTGRES_USER: tipi
+      POSTGRES_DB: vikunja
+    volumes:
+      - ${APP_DATA_DIR}/data/db:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-vikunja-db"
+  "{ServiceName}-vikunja-api":
+    container_name: "{ServiceName}-vikunja-api"
+    image: vikunja/api:0.22.0
+    environment:
+      VIKUNJA_DATABASE_HOST: vikunja-db
+      VIKUNJA_DATABASE_PASSWORD: ${VIKUNJA_DB_PASSWORD}
+      VIKUNJA_DATABASE_TYPE: postgres
+      VIKUNJA_DATABASE_USER: tipi
+      VIKUNJA_DATABASE_DATABASE: vikunja
+      VIKUNJA_SERVICE_JWTSECRET: ${VIKUNJA_SERVICE_SECRET}
+      VIKUNJA_SERVICE_FRONTENDURL: ${APP_PROTOCOL:-http}://${APP_DOMAIN}/
+    volumes:
+      - ${APP_DATA_DIR}/data/files:/app/vikunja/files
+    restart: unless-stopped
+    depends_on:
+      vikunja-db:
+        condition: service_healthy
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-vikunja-api"
+  "{ServiceName}-vikunja":
+    image: vikunja/frontend:0.22.0
+    restart: unless-stopped
+    container_name: "{ServiceName}-vikunja"
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-vikunja"
+  "{ServiceName}-vikunja-proxy":
+    image: nginx
+    container_name: "{ServiceName}-vikunja-proxy"
+    ports:
+      - ${APP_PORT}:80
+    volumes:
+      - ${APP_DATA_DIR}/data/proxy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - vikunja-api
+      - vikunja
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-vikunja-proxy"
+minVersion: 0.14.0-0

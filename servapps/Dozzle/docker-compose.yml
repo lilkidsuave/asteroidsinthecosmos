@@ -1,0 +1,16 @@
+cosmos-installer: null
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: amir20/dozzle:v6.2.4
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - ${APP_PORT}:8080
+    networks:
+      - tipi_main_network
+    environment:
+      - DOZZLE_NO_ANALYTICS=${DOZZLE_NO_ANALYTICS-true}
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

@@ -1,0 +1,27 @@
+cosmos-installer: null
+name: photoprism
+services:
+  "{ServiceName}":
+    environment:
+      PHOTOPRISM_ADMIN_PASSWORD: casaos
+      PHOTOPRISM_UPLOAD_NSFW: "true"
+      TZ: auto
+    image: photoprism/photoprism:231011
+    deploy:
+      resources:
+        reservations:
+          memory: 512M
+    network_mode: bridge
+    ports:
+      - 2342:2342/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/photoprism/storage"
+        target: /photoprism/storage
+      - type: bind
+        source: "{DefaultDataPath}/Gallery"
+        target: /photoprism/originals
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

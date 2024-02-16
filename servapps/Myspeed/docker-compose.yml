@@ -1,0 +1,21 @@
+cosmos-installer: null
+name: myspeed
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    image: germannewsmaker/myspeed:1.0.8
+    ports:
+      - 5216:5216/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/data"
+        target: /myspeed/data
+    network_mode: bridge
+    privileged: false
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

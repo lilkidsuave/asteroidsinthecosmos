@@ -1,0 +1,20 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: zerotier/zerotier:1.12.2
+    restart: on-failure
+    command: ${NETWORK_ID}
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+    devices:
+      - /dev/net/tun
+    healthcheck:
+      test:
+        - CMD
+        - "true"
+    network_mode: host
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

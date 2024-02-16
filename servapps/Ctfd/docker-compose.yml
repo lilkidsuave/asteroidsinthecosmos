@@ -1,0 +1,57 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}-ctfd":
+    image: ctfd/ctfd:3.6.1
+    container_name: "{ServiceName}-ctfd"
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:8000
+    environment:
+      - UPLOAD_FOLDER=/var/uploads
+      - DATABASE_URL=mysql+pymysql://tipi:${CTFD_MYSQL_DB_PASSWORD}@ctfd-db/ctfd
+      - REDIS_URL=redis://ctfd-redis:6379
+      - WORKERS=1
+      - LOG_FOLDER=/var/log/CTFd
+      - ACCESS_LOG=-
+      - ERROR_LOG=-
+      - REVERSE_PROXY=true
+      - SECRET_KEY=${CTFD_SECRET_KEY}
+    volumes:
+      - ${APP_DATA_DIR}/data/uploads:/var/log/CTFd
+      - ${APP_DATA_DIR}/data/uploads:/var/uploads
+    depends_on:
+      - ctfd-db
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-ctfd"
+  "{ServiceName}-ctfd-db":
+    image: mariadb:10.4.12
+    restart: unless-stopped
+    container_name: "{ServiceName}-ctfd-db"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${CTFD_MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=tipi
+      - MYSQL_PASSWORD=${CTFD_MYSQL_DB_PASSWORD}
+      - MYSQL_DATABASE=ctfd
+    volumes:
+      - ${APP_DATA_DIR}/data/db:/var/lib/mysql
+    networks:
+      - tipi_main_network
+    command:
+      - mysqld
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --wait_timeout=28800
+      - --log-warnings=0
+    hostname: "{ServiceName}-ctfd-db"
+  "{ServiceName}-ctfd-redis":
+    image: redis:4
+    container_name: "{ServiceName}-ctfd-redis"
+    restart: unless-stopped
+    volumes:
+      - ${APP_DATA_DIR}/data/redis:/data
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-ctfd-redis"
+minVersion: 0.14.0-0

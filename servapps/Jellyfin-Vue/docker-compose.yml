@@ -1,0 +1,13 @@
+cosmos-installer: null
+version: "3"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: ghcr.io/jellyfin/jellyfin-vue:unstable.2023-09-18.fe0f640
+    ports:
+      - ${APP_PORT}:80
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

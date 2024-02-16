@@ -1,0 +1,20 @@
+cosmos-installer: null
+version: "3.9"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: jvmilazz0/kavita:0.7.14
+    ports:
+      - ${APP_PORT}:5000
+    volumes:
+      - ${APP_DATA_DIR}/data/kavita-config:/kavita/config
+      - ${ROOT_FOLDER_HOST}/media/data/books:/books
+      - ${ROOT_FOLDER_HOST}/media/data/comics:/comics
+      - ${ROOT_FOLDER_HOST}/media/data/manga:/manga
+    environment:
+      - TZ=${TZ}
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

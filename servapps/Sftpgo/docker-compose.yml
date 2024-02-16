@@ -1,0 +1,70 @@
+cosmos-installer: null
+version: "3.8"
+services:
+  "{ServiceName}-sftpgo":
+    container_name: "{ServiceName}-sftpgo"
+    user: root
+    image: drakkan/sftpgo:v2.5.6-alpine
+    restart: unless-stopped
+    depends_on:
+      sftpgo-db:
+        condition: service_healthy
+    ports:
+      - ${APP_PORT}:${SFTPGO_BINDING_PORT-8080}
+      - 2022:2022
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - --no-verbose
+        - --tries=1
+        - --spider
+        - http://localhost:${SFTPGO_BINDING_PORT-8080}/healthz
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/var/lib/sftpgo
+      - ${APP_DATA_DIR}/data/files:/srv/sftpgo/data
+      - ${APP_DATA_DIR}/data/backups:/srv/sftpgo/backups
+    environment:
+      - SFTPGO_HTTPD__BINDINGS__0__PORT=${SFTPGO_BINDING_PORT-8080}
+      - SFTPGO_GRACE_TIME=${SFTPGO_GRACE_TIME-5}
+      - SFTPGO_MINIO_SHA256_SIMD=1
+      - SFTPGO_DATA_PROVIDER__CREATE_DEFAULT_ADMIN=${SFTPGO_CREATE_DEFAULT_ADMIN-1}
+      - SFTPGO_DEFAULT_ADMIN_USERNAME=${SFTPGO_ADMIN_USERNAME}
+      - SFTPGO_DEFAULT_ADMIN_PASSWORD=${SFTPGO_ADMIN_PASSWORD}
+      - SFTPGO_DATA_PROVIDER__DRIVER=postgresql
+      - SFTPGO_DATA_PROVIDER__NAME=sftpgo
+      - SFTPGO_DATA_PROVIDER__HOST=sftpgo-db
+      - SFTPGO_DATA_PROVIDER__PORT=5432
+      - SFTPGO_DATA_PROVIDER__USERNAME=sftpgo
+      - SFTPGO_DATA_PROVIDER__PASSWORD=${SFTPGO_DATABASE_PASSWORD-sftpgo}
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-sftpgo"
+  "{ServiceName}-sftpgo-db":
+    container_name: "{ServiceName}-sftpgo-db"
+    image: docker.io/library/postgres:16.2-alpine
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    volumes:
+      - ${APP_DATA_DIR}/db:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        - CMD
+        - pg_isready
+        - -d
+        - sftpgo
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_PASSWORD=${SFTPGO_DATABASE_PASSWORD-sftpgo}
+      - POSTGRES_USER=sftpgo
+      - POSTGRES_DB=sftpgo
+      - PGUSER=sftpgo
+    hostname: "{ServiceName}-sftpgo-db"
+minVersion: 0.14.0-0

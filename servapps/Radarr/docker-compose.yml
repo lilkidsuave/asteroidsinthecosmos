@@ -1,0 +1,30 @@
+cosmos-installer: null
+name: radarr
+services:
+  "{ServiceName}":
+    environment:
+      PGID: 1000
+      PUID: 1000
+      TZ: auto
+    image: linuxserver/radarr:5.2.6
+    deploy:
+      resources:
+        reservations:
+          memory: 256M
+    network_mode: bridge
+    ports:
+      - 7878:7878/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/config"
+        target: /config
+      - type: bind
+        source: "{DefaultDataPath}/Media/Movies"
+        target: /movies
+      - type: bind
+        source: "{DefaultDataPath}/Downloads"
+        target: /downloads
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

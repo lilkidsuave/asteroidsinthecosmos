@@ -1,0 +1,25 @@
+cosmos-installer: null
+name: nginxproxymanager
+services:
+  "{ServiceName}":
+    image: jc21/nginx-proxy-manager:2.11.1
+    deploy:
+      resources:
+        reservations:
+          memory: 128M
+    network_mode: bridge
+    ports:
+      - 80:80/tcp
+      - 443:443/tcp
+      - 81:81/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/data"
+        target: /data
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/etc/letsencrypt"
+        target: /etc/letsencrypt
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

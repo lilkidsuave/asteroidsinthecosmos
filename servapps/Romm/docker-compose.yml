@@ -1,0 +1,43 @@
+cosmos-installer: null
+version: "3"
+services:
+  "{ServiceName}-romm":
+    image: zurdi15/romm:2.3.1
+    container_name: "{ServiceName}-romm"
+    environment:
+      - ROMM_DB_DRIVER=mariadb
+      - DB_HOST=romm-db
+      - DB_PORT=3306
+      - DB_USER=tipi
+      - DB_NAME=romm
+      - DB_PASSWD=${ROMM_MYSQL_PASSWORD}
+      - IGDB_CLIENT_ID=${ROMM_IGDB_CLIENT_ID}
+      - IGDB_CLIENT_SECRET=${ROMM_IGDB_CLIENT_SECRET}
+      - STEAMGRIDDB_API_KEY="${ROMM_STEAMGRIDDB_API_KEY}"
+    restart: unless-stopped
+    volumes:
+      - ${ROOT_FOLDER_HOST}/media/data/roms:/romm/library
+      - ${APP_DATA_DIR}/data/romm-resources:/romm/resources
+      - ${APP_DATA_DIR}/data/config.yml:/romm/config.yml
+    ports:
+      - ${APP_PORT}:8080
+    depends_on:
+      - romm-db
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-romm"
+  "{ServiceName}-romm-db":
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: "{ServiceName}-romm-db"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${ROMM_MYSQL_PASSWORD}
+      - MYSQL_DATABASE=romm
+      - MYSQL_USER=tipi
+      - MYSQL_PASSWORD=${ROMM_MYSQL_PASSWORD}
+    volumes:
+      - ${APP_DATA_DIR}/data/mysql/config:/config
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-romm-db"
+minVersion: 0.14.0-0

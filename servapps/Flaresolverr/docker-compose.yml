@@ -1,0 +1,13 @@
+cosmos-installer: null
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: ghcr.io/flaresolverr/flaresolverr:v3.3.13
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=${FLARESOLVERR_LOG_LEVEL-info}
+      - TZ=${TZ}
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

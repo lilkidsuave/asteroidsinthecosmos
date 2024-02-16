@@ -1,0 +1,90 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}-authentik":
+    image: ghcr.io/goauthentik/server:2023.10.7
+    restart: unless-stopped
+    command: server
+    container_name: "{ServiceName}-authentik"
+    environment:
+      AUTHENTIK_REDIS__HOST: authentik-redis
+      AUTHENTIK_POSTGRESQL__HOST: authentik-db
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTHENTIK_DB_PASSWORD}
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+    volumes:
+      - ${APP_DATA_DIR}/data/authentik-media:/media
+      - ${APP_DATA_DIR}/data/authentik-custom-templates:/templates
+    ports:
+      - ${APP_PORT}:9443
+    depends_on:
+      - authentik-db
+      - authentik-redis
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-authentik"
+  "{ServiceName}-authentik-worker":
+    image: ghcr.io/goauthentik/server:2023.10.7
+    restart: unless-stopped
+    command: worker
+    container_name: "{ServiceName}-authentik-worker"
+    environment:
+      AUTHENTIK_REDIS__HOST: authentik-redis
+      AUTHENTIK_POSTGRESQL__HOST: authentik-db
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTHENTIK_DB_PASSWORD}
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+    user: root
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${APP_DATA_DIR}/data/authentik-media:/media
+      - ${APP_DATA_DIR}/data/authentik-certs:/certs
+      - ${APP_DATA_DIR}/data/authentik-custom-templates:/templates
+    depends_on:
+      - authentik-db
+      - authentik-redis
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-authentik-worker"
+  "{ServiceName}-authentik-db":
+    container_name: "{ServiceName}-authentik-db"
+    image: postgres:12-alpine
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    volumes:
+      - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${AUTHENTIK_DB_PASSWORD}
+      POSTGRES_USER: authentik
+      POSTGRES_DB: authentik
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-authentik-db"
+  "{ServiceName}-authentik-redis":
+    image: redis:alpine
+    command: --save 60 1 --loglevel warning
+    container_name: "{ServiceName}-authentik-redis"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - redis-cli ping | grep PONG
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    volumes:
+      - ${APP_DATA_DIR}/data/redis:/data
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-authentik-redis"
+minVersion: 0.14.0-0

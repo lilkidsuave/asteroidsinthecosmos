@@ -1,0 +1,18 @@
+cosmos-installer: null
+version: "2.1"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    environment:
+      - APP_HOME_URL=${APP_PROTOCOL:-http}://${APP_DOMAIN}
+      - GRIST_SANDBOX_FLAVOR=${GRIST_SANDBOX_FLAVOR}
+    image: gristlabs/grist:1.1.11
+    ports:
+      - ${APP_PORT}:8484
+    restart: always
+    volumes:
+      - ${APP_DATA_DIR}/data/grist-data:/persist
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

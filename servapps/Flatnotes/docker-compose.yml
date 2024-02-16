@@ -1,0 +1,21 @@
+cosmos-installer: null
+version: "3"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: dullage/flatnotes:v3.6.1
+    environment:
+      FLATNOTES_AUTH_TYPE: ${FLATNOTES_AUTH_TYPE}
+      FLATNOTES_USERNAME: ${FLATNOTES_USERNAME}
+      FLATNOTES_PASSWORD: ${FLATNOTES_PASSWORD}
+      FLATNOTES_SECRET_KEY: ${FLATNOTES_SECRET_KEY}
+      FLATNOTES_TOTP_KEY: ${FLATNOTES_TOTP_KEY}
+    volumes:
+      - ${APP_DATA_DIR}/data:/data
+    ports:
+      - ${APP_PORT}:8080
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

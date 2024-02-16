@@ -1,0 +1,16 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    image: sethsimmons/moneroblock:v0.1.2
+    restart: unless-stopped
+    container_name: "{ServiceName}"
+    ports:
+      - ${APP_PORT}:31312
+    command:
+      - --daemon
+      - ${DAEMON_ADDRESS:-node.sethforprivacy.com:18089}
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

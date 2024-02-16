@@ -1,0 +1,19 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    image: lscr.io/linuxserver/kasm:1.120.20221218
+    container_name: "{ServiceName}"
+    privileged: true
+    environment:
+      - KASM_PORT=8744
+    volumes:
+      - ${APP_DATA_DIR}/data:/opt
+    ports:
+      - 8743:3000
+      - ${APP_PORT}:8744
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

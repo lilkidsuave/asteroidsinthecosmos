@@ -1,0 +1,18 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: couchdb:3.1.2
+    ports:
+      - ${OBSIDIAN_LIVESYNC_PORT:-${APP_PORT}}:5984
+    environment:
+      - COUCHDB_USER=${OBSIDIAN_LIVESYNC_USER}
+      - COUCHDB_PASSWORD=${OBSIDIAN_LIVESYNC_PASSWORD}
+    volumes:
+      - ${APP_DATA_DIR}/data/couchdb:/opt/couchdb/data
+      - ${APP_DATA_DIR}/data/local.ini:/opt/couchdb/etc/local.ini
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

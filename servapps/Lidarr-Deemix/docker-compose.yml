@@ -1,0 +1,21 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    image: youegraillot/lidarr-on-steroids:1.5.1
+    container_name: "{ServiceName}"
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/config
+      - ${APP_DATA_DIR}/data/config-deemix:/config_deemix
+      - ${ROOT_FOLDER_HOST}/media/downloads/deemix:/downloads
+      - ${ROOT_FOLDER_HOST}/media/data/music:/music
+      - ${ROOT_FOLDER_HOST}/media/usenet/completed/:/downloads/completed
+      - ${ROOT_FOLDER_HOST}/media:/media
+    ports:
+      - ${APP_PORT}:8686
+      - 8187:6595
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

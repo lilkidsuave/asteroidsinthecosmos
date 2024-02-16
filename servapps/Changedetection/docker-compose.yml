@@ -1,0 +1,15 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    image: ghcr.io/dgtlmoon/changedetection.io:0.45.14
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+    volumes:
+      - ${APP_DATA_DIR}/data:/datastore
+    ports:
+      - ${APP_PORT}:5000
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+minVersion: 0.14.0-0

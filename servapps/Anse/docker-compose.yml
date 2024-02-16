@@ -1,0 +1,15 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    image: ddiu8081/anse:v1.1.11
+    restart: unless-stopped
+    container_name: "{ServiceName}"
+    environment:
+      - PORT=8014
+    ports:
+      - ${APP_PORT}:8014
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

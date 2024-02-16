@@ -1,0 +1,20 @@
+cosmos-installer: null
+name: alist
+services:
+  "{ServiceName}":
+    image: xhofe/alist:v3.28.0
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - 5244:5244/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/data"
+        target: /opt/alist/data
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

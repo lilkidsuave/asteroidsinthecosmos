@@ -1,0 +1,18 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    image: maulik9898/barrage:0.3.0
+    container_name: "{ServiceName}"
+    environment:
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - DELUGE_URL=${DELUGE_URL}
+      - DELUGE_PASSWORD=${DELUGE_PASSWORD}
+      - BARRAGE_PASSWORD=${BARRAGE_PASSWORD}
+    ports:
+      - ${APP_PORT}:3000
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

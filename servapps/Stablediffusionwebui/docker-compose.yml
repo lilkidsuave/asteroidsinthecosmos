@@ -1,0 +1,32 @@
+cosmos-installer: null
+name: icewhale-stable-diffusion-webui
+services:
+  "{ServiceName}":
+    image: johnguan/stable-diffusion-webui:latest
+    runtime: nvidia
+    ipc: host
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CPU_FALLBACK=true
+    deploy:
+      resources:
+        reservations:
+          memory: 512M
+    network_mode: bridge
+    ports:
+      - 7860:7860/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/Stable-Diffusion-WebUI/models"
+        target: /data/models
+      - type: bind
+        source: "{DefaultDataPath}/AppData/Stable-Diffusion-WebUI/outputs"
+        target: /data/outputs
+      - type: bind
+        source: "{DefaultDataPath}/AppData/Stable-Diffusion-WebUI/config"
+        target: /data/config
+    privileged: false
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

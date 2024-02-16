@@ -1,0 +1,42 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}-send":
+    image: registry.gitlab.com/timvisee/send:latest
+    container_name: "{ServiceName}-send"
+    restart: unless-stopped
+    dns:
+      - ${DNS_IP}
+    ports:
+      - ${APP_PORT}:1443
+    networks:
+      - tipi_main_network
+    volumes:
+      - ${APP_DATA_DIR}/data/uploads:/uploads
+    environment:
+      - NODE_ENV=production
+      - BASE_URL=${APP_PROTOCOL:-http}://${APP_DOMAIN}
+      - REDIS_HOST=send-redis
+      - MAX_FILE_SIZE=2147483648
+      - FILE_DIR=/uploads
+    depends_on:
+      - send-redis
+    hostname: "{ServiceName}-send"
+  "{ServiceName}-send-redis":
+    image: redis:alpine
+    container_name: "{ServiceName}-send-redis"
+    restart: unless-stopped
+    volumes:
+      - ${APP_DATA_DIR}/data/redis:/data
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-send-redis"
+minVersion: 0.14.0-0

@@ -1,0 +1,18 @@
+cosmos-installer: null
+version: "3.9"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: lobehub/lobe-chat:v0.128.0
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_PROXY_URL=${OPEANAI_PROXY_URL}
+      - CUSTOM_MODELS=${CUSTOM_MODELS}
+      - ACCESS_CODE=${ACCESS_CODE}
+    ports:
+      - ${APP_PORT}:3210
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

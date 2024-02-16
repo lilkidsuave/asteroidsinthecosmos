@@ -1,0 +1,15 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: libreddit/libreddit:latest
+    dns:
+      - ${DNS_IP}
+    ports:
+      - ${APP_PORT}:8080
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

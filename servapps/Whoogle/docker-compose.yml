@@ -1,0 +1,15 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: benbusby/whoogle-search:0.8.4
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    ports:
+      - ${APP_PORT}:8255
+    environment:
+      EXPOSE_PORT: 8255
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

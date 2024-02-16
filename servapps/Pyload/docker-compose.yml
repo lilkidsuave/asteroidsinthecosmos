@@ -1,0 +1,29 @@
+cosmos-installer: null
+name: pyload
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: linuxserver/pyload-ng:0.5.0
+    deploy:
+      resources:
+        reservations:
+          memory: 256M
+    environment:
+      PGID: 1000
+      PUID: 1000
+      TZ: auto
+    restart: unless-stopped
+    network_mode: bridge
+    privileged: false
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/config"
+        target: /config
+      - type: bind
+        source: "{DefaultDataPath}/Downloads"
+        target: /downloads
+    ports:
+      - 8000:8000/tcp
+      - 9666:9666/tcp
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

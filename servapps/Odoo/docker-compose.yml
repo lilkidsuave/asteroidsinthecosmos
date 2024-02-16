@@ -1,0 +1,39 @@
+cosmos-installer: null
+version: "3.9"
+services:
+  "{ServiceName}-odoodb":
+    container_name: "{ServiceName}-odoodb"
+    image: postgres:15
+    user: root
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=${ODOO_POSTGRES_PASSWORD}
+      - POSTGRES_DB=postgres
+    restart: unless-stopped
+    volumes:
+      - ${APP_DATA_DIR}/data/postgresql:/var/lib/postgresql/data
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-odoodb"
+  "{ServiceName}-odoo":
+    container_name: "{ServiceName}-odoo"
+    image: odoo:17
+    user: root
+    depends_on:
+      - odoodb
+    ports:
+      - ${APP_PORT}:8069
+    tty: true
+    command: --
+    environment:
+      - HOST=odoodb
+      - USER=odoo
+      - PASSWORD=${ODOO_POSTGRES_PASSWORD}
+    volumes:
+      - ${APP_DATA_DIR}/data/addons:/mnt/extra-addons
+      - ${APP_DATA_DIR}/data/etc:/etc/odoo
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-odoo"
+minVersion: 0.14.0-0

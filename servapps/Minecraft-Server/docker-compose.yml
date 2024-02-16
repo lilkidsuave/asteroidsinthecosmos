@@ -1,0 +1,20 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: itzg/minecraft-server:latest
+    ports:
+      - ${APP_PORT}:25565
+    environment:
+      EULA: "TRUE"
+      VERSION: ${MC_VERSION:-LATEST}
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    volumes:
+      - ${APP_DATA_DIR}/data/minecraft-data:/data
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

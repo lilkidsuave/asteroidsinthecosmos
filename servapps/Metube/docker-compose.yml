@@ -1,0 +1,15 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    image: ghcr.io/alexta69/metube:2023-08-13
+    container_name: "{ServiceName}"
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:8081
+    volumes:
+      - ${ROOT_FOLDER_HOST}/media/downloads/complete/:/downloads
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

@@ -1,0 +1,20 @@
+cosmos-installer: null
+version: "3.4"
+services:
+  "{ServiceName}":
+    image: ghcr.io/hay-kot/homebox:v0.10.3
+    container_name: "{ServiceName}"
+    restart: always
+    environment:
+      - HBOX_LOG_LEVEL=info
+      - HBOX_LOG_FORMAT=text
+      - HBOX_WEB_MAX_UPLOAD_SIZE=10
+      - HBOX_OPTIONS_ALLOW_REGISTRATION=${HBOX_OPTIONS_ALLOW_REGISTRATION}
+    volumes:
+      - ${APP_DATA_DIR}/data/homebox-data:/data/
+    ports:
+      - ${APP_PORT}:7745
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

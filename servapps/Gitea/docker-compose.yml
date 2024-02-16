@@ -1,0 +1,24 @@
+cosmos-installer: null
+name: gitea
+services:
+  "{ServiceName}":
+    environment:
+      USER_GID: "1000"
+      USER_UID: "1000"
+    image: gitea/gitea:1.19.3
+    deploy:
+      resources:
+        reservations:
+          memory: 256M
+    network_mode: bridge
+    ports:
+      - 3002:3000/tcp
+      - 222:22/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/data"
+        target: /data
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

@@ -1,0 +1,15 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: libretranslate/libretranslate:v1.5.5
+    dns:
+      - ${DNS_IP}
+    ports:
+      - ${APP_PORT}:5000
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

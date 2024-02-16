@@ -1,0 +1,30 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    image: flowiseai/flowise:1.5.0
+    restart: unless-stopped
+    command: /bin/sh -c "sleep 3; flowise start"
+    container_name: "{ServiceName}"
+    environment:
+      - PORT=8009
+      - FLOWISE_USERNAME=${FLOWISE_USERNAME}
+      - FLOWISE_PASSWORD=${FLOWISE_PASSWORD}
+      - FLOWISE_SECRETKEY_OVERWRITE=${FLOWISE_SECRETKEY_OVERWRITE}
+      - LANGCHAIN_ENDPOINT=${LANGCHAIN_ENDPOINT}
+      - LANGCHAIN_API_KEY=${LANGCHAIN_API_KEY}
+      - LANGCHAIN_PROJECT=${LANGCHAIN_PROJECT}
+      - LANGCHAIN_TRACING_V2=${LANGCHAIN_TRACING_V2}
+      - DISABLE_FLOWISE_TELEMETRY=${DISABLE_FLOWISE_TELEMETRY}
+      - DATABASE_PATH=/root/.flowise
+      - APIKEY_PATH=/root/.flowise
+      - SECRETKEY_PATH=/root/.flowise/logs
+      - LOG_PATH=/root/.flowise
+    ports:
+      - ${APP_PORT}:8009
+    volumes:
+      - ${APP_DATA_DIR}/data/flowise:/root/.flowise
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

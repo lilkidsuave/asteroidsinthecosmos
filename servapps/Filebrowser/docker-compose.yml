@@ -1,0 +1,27 @@
+cosmos-installer: null
+name: filebrowser
+services:
+  "{ServiceName}":
+    environment:
+      PGID: 1000
+      PUID: 1000
+      TZ: auto
+    image: filebrowser/filebrowser:v2.23.0
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - 10180:80/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/db"
+        target: /db
+      - type: bind
+        source: /DATA
+        target: /srv
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

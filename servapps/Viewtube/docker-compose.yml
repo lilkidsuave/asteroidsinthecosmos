@@ -1,0 +1,41 @@
+cosmos-installer: null
+version: "3"
+services:
+  "{ServiceName}-viewtube":
+    restart: unless-stopped
+    container_name: "{ServiceName}-viewtube"
+    image: mauriceo/viewtube:0.15.1
+    depends_on:
+      - viewtube-mongodb
+      - viewtube-redis
+    volumes:
+      - ${APP_DATA_DIR}/data/viewtube:/data
+    environment:
+      - VIEWTUBE_DATABASE_HOST=viewtube-mongodb
+      - VIEWTUBE_REDIS_HOST=viewtube-redis
+      - VIEWTUBE_SECURE=true
+      - VIEWTUBE_CORS_ORIGIN=${APP_PROTOCOL:-http}://${APP_DOMAIN}
+    ports:
+      - ${APP_PORT}:8066
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-viewtube"
+  "{ServiceName}-viewtube-mongodb":
+    container_name: "{ServiceName}-viewtube-mongodb"
+    restart: unless-stopped
+    image: mongo:5
+    networks:
+      - tipi_main_network
+    volumes:
+      - ${APP_DATA_DIR}/data/db:/data/db
+    hostname: "{ServiceName}-viewtube-mongodb"
+  "{ServiceName}-viewtube-redis":
+    container_name: "{ServiceName}-viewtube-redis"
+    restart: unless-stopped
+    image: redis:7
+    networks:
+      - tipi_main_network
+    volumes:
+      - ${APP_DATA_DIR}/data/redis:/data
+    hostname: "{ServiceName}-viewtube-redis"
+minVersion: 0.14.0-0

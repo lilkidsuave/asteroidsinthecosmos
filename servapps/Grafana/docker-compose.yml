@@ -1,0 +1,20 @@
+cosmos-installer: null
+name: grafana
+services:
+  "{ServiceName}":
+    image: grafana/grafana:10.2.2
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - 3003:3000/tcp
+    restart: always
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/data"
+        target: /var/lib/grafana
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

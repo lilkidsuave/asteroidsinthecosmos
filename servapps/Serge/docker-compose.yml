@@ -1,0 +1,16 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    image: ghcr.io/serge-chat/serge:0.9.0
+    container_name: "{ServiceName}"
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:8008
+    networks:
+      - tipi_main_network
+    volumes:
+      - ${APP_DATA_DIR}/data/weights:/usr/src/app/weights
+      - ${APP_DATA_DIR}/data/db:/data/db/
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

@@ -1,0 +1,13 @@
+cosmos-installer: null
+services:
+  "{ServiceName}":
+    image: ghcr.io/zadam/trilium:0.62.6
+    container_name: "{ServiceName}"
+    ports:
+      - ${APP_PORT}:8080
+    volumes:
+      - ${APP_DATA_DIR}/home/node/trilium-data
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

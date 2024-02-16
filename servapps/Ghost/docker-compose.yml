@@ -1,0 +1,37 @@
+cosmos-installer: null
+version: "3.9"
+services:
+  "{ServiceName}-ghost":
+    image: ghost:5.79.1
+    container_name: "{ServiceName}-ghost"
+    depends_on:
+      - ghostdb
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:2368
+    environment:
+      database__client: mysql
+      database__connection__host: ghostdb
+      database__connection__user: tipi
+      database__connection__password: ${GHOST_DATABASE_PASSWORD}
+      database__connection__database: ghosttipi
+      url: ${APP_PROTOCOL:-http}://${APP_DOMAIN}
+    volumes:
+      - ${APP_DATA_DIR}/content:/var/lib/ghost/content
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-ghost"
+  "{ServiceName}-ghostdb":
+    container_name: "{ServiceName}-ghostdb"
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${GHOST_DATABASE_PASSWORD}
+      MYSQL_USER: tipi
+      MYSQL_PASSWORD: ${GHOST_DATABASE_PASSWORD}
+      MYSQL_DATABASE: ghosttipi
+    volumes:
+      - ${APP_DATA_DIR}/data/db:/var/lib/mysql
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-ghostdb"
+minVersion: 0.14.0-0

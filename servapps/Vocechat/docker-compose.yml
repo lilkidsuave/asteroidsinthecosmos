@@ -1,0 +1,22 @@
+cosmos-installer: null
+name: vocechat
+services:
+  "{ServiceName}":
+    environment:
+      TZ: auto
+    image: privoce/vocechat-server:v0.3.33
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - 3009:3000/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/home/vocechat-server/data"
+        target: /home/vocechat-server/data
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

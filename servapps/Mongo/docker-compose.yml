@@ -1,0 +1,22 @@
+cosmos-installer: null
+name: mongodb
+services:
+  "{ServiceName}":
+    image: mongo:6.0.6
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: auto
+    ports:
+      - 27017:27017/tcp
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/mongo/data/configdb"
+        target: /data/configdb
+      - type: bind
+        source: "{DefaultDataPath}/AppData/mongo/data/db"
+        target: /data/db
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

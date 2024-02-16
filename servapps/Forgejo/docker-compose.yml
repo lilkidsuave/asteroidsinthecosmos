@@ -1,0 +1,39 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}-forgejo":
+    image: codeberg.org/forgejo/forgejo:1.21.5-0
+    container_name: "{ServiceName}-forgejo"
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - FORGEJO__database__DB_TYPE=postgres
+      - FORGEJO__database__HOST=forgejo-db:5432
+      - FORGEJO__database__NAME=forgejo
+      - FORGEJO__database__USER=forgejo
+      - FORGEJO__database__PASSWD=${FORGEJO_DB_PASSWORD}
+    restart: unless-stopped
+    volumes:
+      - ${APP_DATA_DIR}/data/forgejo:/data
+    ports:
+      - ${APP_PORT}:3000
+      - 222:22
+    depends_on:
+      - forgejo-db
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-forgejo"
+  "{ServiceName}-forgejo-db":
+    container_name: "{ServiceName}-forgejo-db"
+    image: postgres:14
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=forgejo
+      - POSTGRES_PASSWORD=${FORGEJO_DB_PASSWORD}
+      - POSTGRES_DB=forgejo
+    volumes:
+      - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-forgejo-db"
+minVersion: 0.14.0-0

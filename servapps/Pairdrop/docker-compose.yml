@@ -1,0 +1,18 @@
+cosmos-installer: null
+version: "3"
+services:
+  "{ServiceName}":
+    image: lscr.io/linuxserver/pairdrop:1.10.7
+    container_name: "{ServiceName}"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - RATE_LIMIT=false]
+      - WS_FALLBACK=false
+    ports:
+      - ${APP_PORT}:3000
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

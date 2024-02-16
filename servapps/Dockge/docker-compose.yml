@@ -1,0 +1,19 @@
+cosmos-installer: null
+version: "3.8"
+services:
+  "{ServiceName}":
+    image: louislam/dockge:1.4.2
+    container_name: "{ServiceName}"
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:5001
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${APP_DATA_DIR}/data/app-data:/app/data
+      - ${APP_DATA_DIR}/data/stacks:${APP_DATA_DIR}/data/stacks
+    environment:
+      - DOCKGE_STACKS_DIR=${APP_DATA_DIR}/data/stacks
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

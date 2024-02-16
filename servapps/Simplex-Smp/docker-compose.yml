@@ -1,0 +1,18 @@
+cosmos-installer: null
+version: "3.9"
+services:
+  "{ServiceName}":
+    image: simplexchat/smp-server:v5.5.2
+    container_name: "{ServiceName}"
+    volumes:
+      - ${APP_DATA_DIR}/data/simplex/logs:/var/opt/simplex:z
+      - ${APP_DATA_DIR}/data/simplex/config:/etc/opt/simplex:z
+    ports:
+      - ${APP_PORT}:5223
+    environment:
+      - PASS=${SIMPLEX_SMP_PASSWORD}
+      - ADDR=${APP_DOMAIN}
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

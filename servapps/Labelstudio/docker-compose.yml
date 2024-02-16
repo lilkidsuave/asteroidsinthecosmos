@@ -1,0 +1,24 @@
+cosmos-installer: null
+name: label-studio
+services:
+  "{ServiceName}":
+    environment:
+      PGID: 1000
+      PUID: 1000
+      TZ: auto
+    image: heartexlabs/label-studio:1.8.1
+    deploy:
+      resources:
+        reservations:
+          memory: 256M
+    network_mode: bridge
+    ports:
+      - 3080:8080/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/data"
+        target: /label-studio/data
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

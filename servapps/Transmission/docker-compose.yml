@@ -1,0 +1,35 @@
+cosmos-installer: null
+name: transmission
+services:
+  "{ServiceName}":
+    environment:
+      PASS: casaos
+      PEERPORT: "51413"
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+      USER: casaos
+    image: linuxserver/transmission:4.0.4
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - 9091:9091/tcp
+      - 51413:51413/tcp
+      - 51413:51413/UDP
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/{ServiceName}/config"
+        target: /config
+      - type: bind
+        source: "{DefaultDataPath}/Downloads"
+        target: /downloads
+      - type: bind
+        source: "{DefaultDataPath}/Downloads/watch"
+        target: /watch
+    container_name: "{ServiceName}"
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

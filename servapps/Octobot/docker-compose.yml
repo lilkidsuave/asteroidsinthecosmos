@@ -1,0 +1,21 @@
+cosmos-installer: null
+version: "3.9"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: drakkarsoftware/octobot:1.0.7
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ${APP_DATA_DIR}/data/user:/octobot/user
+      - ${APP_DATA_DIR}/data/tentacles:/octobot/tentacles
+      - ${APP_DATA_DIR}/data/logs:/octobot/logs
+    ports:
+      - ${APP_PORT}:5001
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    dns:
+      - ${DNS_IP}
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

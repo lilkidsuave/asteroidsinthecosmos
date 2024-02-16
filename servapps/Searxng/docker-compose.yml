@@ -1,0 +1,19 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: searxng/searxng:latest
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    volumes:
+      - ${APP_DATA_DIR}/data:/etc/searxng
+    ports:
+      - ${APP_PORT}:8080
+    environment:
+      - BIND_ADDRESS=0.0.0.0:8080
+      - BASE_URL=${APP_PROTOCOL:-http}://${APP_DOMAIN}/
+      - SEARXNG_SECRET=${SEARXNG_SECRET_KEY}
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

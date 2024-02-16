@@ -1,0 +1,37 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}-wikijs":
+    container_name: "{ServiceName}-wikijs"
+    image: ghcr.io/requarks/wiki:2.5.301
+    depends_on:
+      - wikijs-db
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: wikijs-db
+      DB_PORT: 5432
+      DB_USER: wikijs
+      DB_PASS: ${WIKI_JS_DB_PASS}
+      DB_NAME: wiki
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:3000
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-wikijs"
+  "{ServiceName}-wikijs-db":
+    container_name: "{ServiceName}-wikijs-db"
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_DB: wiki
+      POSTGRES_PASSWORD: ${WIKI_JS_DB_PASS}
+      POSTGRES_USER: wikijs
+    logging:
+      driver: none
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    volumes:
+      - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
+    hostname: "{ServiceName}-wikijs-db"
+minVersion: 0.14.0-0

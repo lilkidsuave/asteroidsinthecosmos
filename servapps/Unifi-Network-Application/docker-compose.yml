@@ -1,0 +1,65 @@
+cosmos-installer: null
+name: unifi-network-application
+services:
+  "{ServiceName}-unifi-network-application":
+    container_name: "{ServiceName}-unifi-network-application"
+    depends_on:
+      unifi-db:
+        condition: service_started
+        required: true
+    environment:
+      - MONGO_DBNAME=unifi-db
+      - MONGO_HOST=unifi-db
+      - MONGO_PASS=pass
+      - MONGO_PORT=27017
+      - MONGO_USER=unifi
+      - PGID=1000
+      - PUID=1000
+      - TZ=auto
+    image: lscr.io/linuxserver/unifi-network-application:latest
+    ports:
+      - 8443:8443/tcp
+      - 3478:3478/udp
+      - 10001:10001/udp
+      - 8080:8080/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/unifi-network-application"
+        target: /config
+    networks:
+      - unifi-bridge
+    privileged: false
+    hostname: "{ServiceName}-unifi-network-application"
+  "{ServiceName}-unifi-db":
+    container_name: "{ServiceName}-unifi-db"
+    image: docker.io/mongo:3.6
+    configs:
+      - source: init-mongo.js
+        target: /docker-entrypoint-initdb.d/init-mongo.js
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=auto
+    ports:
+      - 27017:27017/tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: "{DefaultDataPath}/AppData/unifi-db"
+        target: /data/db
+    networks:
+      - unifi-bridge
+    privileged: false
+    hostname: "{ServiceName}-unifi-db"
+networks:
+  unifi-bridge:
+    driver: bridge
+configs:
+  init-mongo.js:
+    content: >
+      db.getSiblingDB("unifi-db").createUser({user: "unifi", pwd: "pass", roles:
+      [{role: "dbOwner", db: "unifi-db"}]}); 
+
+      db.getSiblingDB("unifi-db_stat").createUser({user: "unifi", pwd: "pass", roles: [{role: "dbOwner", db: "unifi-db_stat"}]});
+minVersion: 0.14.0-0

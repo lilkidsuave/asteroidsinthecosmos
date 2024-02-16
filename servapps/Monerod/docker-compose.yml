@@ -1,0 +1,20 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    image: sethsimmons/simple-monerod:v0.18.3.1
+    dns:
+      - ${DNS_IP}
+    ports:
+      - ${APP_PORT}:18080
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    container_name: "{ServiceName}"
+    volumes:
+      - ${APP_DATA_DIR}/data:/home/monero/.bitmonero
+    command: --rpc-restricted-bind-ip=0.0.0.0 --rpc-restricted-bind-port=18089
+      --public-node --no-igd --enable-dns-blocklist --prune-blockchain
+      --zmq-pub=tcp://0.0.0.0:18083
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

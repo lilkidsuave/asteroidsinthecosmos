@@ -1,0 +1,19 @@
+cosmos-installer: null
+version: "3.9"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: ipsingh06/seedsync:0.8.6
+    user: ${SEEDSYNC_PUID:-1000}:${SEEDSYNC_PGID:-1000}
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/config
+      - ${ROOT_FOLDER_HOST}/media/torrents/complete:/downloads
+    ports:
+      - ${APP_PORT}:8800
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

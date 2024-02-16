@@ -1,0 +1,19 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: binwiederhier/ntfy:v2.8.0
+    environment:
+      - NTFY_BASE_URL=${APP_PROTOCOL:-http}://${APP_DOMAIN}
+      - NTFY_UPSTREAM_BASE_URL=https://ntfy.sh
+    command: serve
+    volumes:
+      - ${APP_DATA_DIR}/data/cache:/var/cache/ntfy
+      - ${APP_DATA_DIR}/data/config:/etc/ntfy
+    ports:
+      - ${APP_PORT}:80
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

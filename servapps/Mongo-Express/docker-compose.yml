@@ -1,0 +1,20 @@
+cosmos-installer: null
+version: "3.8"
+services:
+  "{ServiceName}":
+    container_name: "{ServiceName}"
+    image: mongo-express:1.0.2
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:8081
+    networks:
+      - tipi_main_network
+    environment:
+      - ME_CONFIG_MONGODB_SERVER={ME_CONFIG_MONGODB_SERVERIP}
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${ME_CONFIG_MONGODB_ADMINUSERNAME}
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${ME_CONFIG_MONGODB_ADMINPASSWORD}
+      - ME_CONFIG_BASICAUTH_USERNAME=${ME_CONFIG_BASICAUTH_USERNAME}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${ME_CONFIG_BASICAUTH_PASSWORD}
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

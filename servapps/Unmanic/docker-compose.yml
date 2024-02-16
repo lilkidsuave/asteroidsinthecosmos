@@ -1,0 +1,21 @@
+cosmos-installer: null
+version: "3.5"
+services:
+  "{ServiceName}":
+    image: josh5/unmanic:0.2.4
+    restart: unless-stopped
+    container_name: "{ServiceName}"
+    privileged: true
+    ports:
+      - ${APP_PORT}:8888
+    networks:
+      - tipi_main_network
+    environment:
+      - PUID=${TIPI_UID}
+      - PGID=${TIPI_GID}
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/config
+      - ${ROOT_FOLDER_HOST}/media/data:/library
+      - ${APP_DATA_DIR}/data/temp:/tmp/unmanic
+    hostname: "{ServiceName}"
+minVersion: 0.14.0-0

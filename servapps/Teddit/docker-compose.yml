@@ -1,0 +1,49 @@
+cosmos-installer: null
+version: "3.7"
+services:
+  "{ServiceName}-teddit":
+    image: teddit/teddit:latest
+    container_name: "{ServiceName}-teddit"
+    networks:
+      - tipi_main_network
+    ports:
+      - ${APP_PORT}:8080
+    depends_on:
+      - teddit-redis
+    restart: unless-stopped
+    environment:
+      - REDIS_HOST=teddit-redis
+      - DOMAIN=${APP_DOMAIN}
+      - THEME=dark
+      - HTTPS_ENABLED=false
+      - REDIRECT_HTTP_TO_HTTPS=false
+      - REDIRECT_WWW=false
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - --no-verbose
+        - --tries=1
+        - --spider
+        - http://localhost:8080/about
+      interval: 1m
+      timeout: 3s
+    hostname: "{ServiceName}-teddit"
+  "{ServiceName}-teddit-redis":
+    image: redis:alpine
+    container_name: "{ServiceName}-teddit-redis"
+    restart: unless-stopped
+    volumes:
+      - ${APP_DATA_DIR}/data/redis:/data
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-teddit-redis"
+minVersion: 0.14.0-0

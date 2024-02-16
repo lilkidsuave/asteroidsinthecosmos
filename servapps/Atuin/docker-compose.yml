@@ -1,0 +1,35 @@
+cosmos-installer: null
+version: "3.5"
+services:
+  "{ServiceName}-atuin":
+    container_name: "{ServiceName}-atuin"
+    restart: always
+    image: ghcr.io/atuinsh/atuin:latest
+    command: server start
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/config
+    links:
+      - postgresql:db
+    ports:
+      - ${APP_PORT}:8888
+    environment:
+      ATUIN_HOST: 0.0.0.0
+      ATUIN_OPEN_REGISTRATION: ${ATUIN_ALLOW_REGISTRATION}
+      ATUIN_DB_URI: postgres://atuin:${ATUIN_DB_PASSWORD}@db/atuin
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-atuin"
+  "{ServiceName}-postgresql":
+    image: postgres:14
+    restart: unless-stopped
+    volumes:
+      - ${APP_DATA_DIR}/data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: atuin
+      POSTGRES_PASSWORD: ${ATUIN_DB_PASSWORD}
+      POSTGRES_DB: atuin
+    networks:
+      - tipi_main_network
+    container_name: "{ServiceName}-postgresql"
+    hostname: "{ServiceName}-postgresql"
+minVersion: 0.14.0-0

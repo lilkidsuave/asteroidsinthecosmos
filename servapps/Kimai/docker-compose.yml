@@ -1,0 +1,59 @@
+cosmos-installer: null
+version: "3.5"
+services:
+  "{ServiceName}-nginx":
+    container_name: "{ServiceName}-nginx"
+    image: tobybatch/nginx-fpm-reverse-proxy:latest
+    ports:
+      - ${APP_PORT}:80
+    volumes:
+      - ${APP_DATA_DIR}/data/public:/opt/kimai/public:ro
+    restart: unless-stopped
+    depends_on:
+      - kimai
+    healthcheck:
+      test: wget --spider http://kimai-proxy/health || exit 1
+      interval: 20s
+      start_period: 10s
+      timeout: 10s
+      retries: 3
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-nginx"
+  "{ServiceName}-kimai":
+    container_name: "{ServiceName}-kimai"
+    image: kimai/kimai2:fpm-2.1.0-prod
+    environment:
+      - ADMINMAIL=${KIMAI_ADMINMAIL}
+      - ADMINPASS=${KIMAI_ADMINPASS}
+      - DATABASE_URL=mysql://kimai:${KIMAI_DATABASE_PASSWORD}@kimai-sqldb/kimai?charset=utf8&serverVersion=5.7
+      - TRUSTED_HOSTS=kimai-proxy,localhost,127.0.0.1
+    volumes:
+      - ${APP_DATA_DIR}/data/public:/opt/kimai/public
+      - ${APP_DATA_DIR}/data/var:/opt/kimai/var
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-kimai"
+  "{ServiceName}-sqldb":
+    container_name: "{ServiceName}-sqldb"
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=kimai
+      - MYSQL_USER=kimai
+      - MYSQL_PASSWORD=${KIMAI_DATABASE_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${KIMAI_DATABASE_ROOT_PASSWORD}
+    volumes:
+      - ${APP_DATA_DIR}/data/mysql:/var/lib/mysql
+    command: --default-storage-engine innodb
+    restart: unless-stopped
+    healthcheck:
+      test: mysqladmin -p$$MYSQL_ROOT_PASSWORD ping -h localhost
+      interval: 20s
+      start_period: 10s
+      timeout: 10s
+      retries: 3
+    networks:
+      - tipi_main_network
+    hostname: "{ServiceName}-sqldb"
+minVersion: 0.14.0-0
