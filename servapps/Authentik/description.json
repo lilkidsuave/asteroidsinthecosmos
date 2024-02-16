@@ -1,0 +1,20 @@
+{
+    "name": "Authentik",
+    "description": "Authentik - Identity and Access Management Solution. Simplify user authentication and authorization with Authentik.",
+    "longDescription": "Authentik is a comprehensive Identity and Access Management (IAM) solution, streamlining user authentication and authorization processes. Whether you're managing internal users or external customers, Authentik provides a secure and user-friendly platform for identity management.",
+    "tags": [
+      "Identity Management",
+      "Access Management",
+      "Authentication",
+      "Authorization"
+    ],
+    "repository": "https://github.com/goauthentik/authentik",
+    "image": "https://github.com/goauthentik/authentik/pkgs/container/server",
+    "supported_architectures": [
+      "amd64",
+      "386",
+      "arm64",
+      "arm"
+    ]
+  }
+  
