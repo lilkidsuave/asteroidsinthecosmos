@@ -1,0 +1,19 @@
+{
+  "name": "Atuin",
+  "description": "Atuin - Task Management and Productivity Tool. Stay organized and boost your productivity with Atuin.",
+  "longDescription": "Atuin is a comprehensive task management and productivity tool designed to help users stay organized and enhance their productivity. Whether you're an individual or a team, Atuin provides the features you need to streamline your tasks and achieve your goals.",
+  "tags": [
+    "Productivity",
+    "Task Management",
+    "Organization",
+    "Collaboration"
+  ],
+  "repository": "https://github.com/atuin-app/atuin",
+  "image": "https://github.com/atuinsh/atuin/pkgs/container/atuin",
+  "supported_architectures": [
+    "amd64",
+    "386",
+    "arm64",
+    "arm"
+  ]
+}
