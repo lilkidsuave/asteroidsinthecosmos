@@ -47,6 +47,11 @@ for (const file of servapps) {
     if (fs.existsSync(`./servapps/${file}/metadata/logo.jpg`)) {
       servapp.icon = ThirdIconSource;
      }
+     //Asteroid Format
+    const FourthIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/metadata/logo.jpg`;
+    if (fs.existsSync(`./servapps/${file}/logo.jpg`)) {
+      servapp.icon = FourthIconSource;
+     }
     //Common Format,used by most
     const primaryComposeSource =  `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/docker-compose.yml`;
     if (fs.existsSync(`./servapps/${file}/docker-compose.yml`)) {
