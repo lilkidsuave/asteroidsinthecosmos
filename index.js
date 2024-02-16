@@ -48,7 +48,7 @@ for (const file of servapps) {
       servapp.icon = ThirdIconSource;
      }
      //Asteroid Format
-    const FourthIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/metadata/logo.jpg`;
+    const FourthIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/logo.jpg`;
     if (fs.existsSync(`./servapps/${file}/logo.jpg`)) {
       servapp.icon = FourthIconSource;
      }
