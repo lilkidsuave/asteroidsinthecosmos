@@ -1,0 +1,21 @@
+{
+  "name": "Anse",
+  "description": "A fully optimized UI for AI Chats, providing a supercharged experience for multiple models such as ChatGPT, DALL-E, and Stable Diffusion.",
+  "longDescription": "Anse is a powerful web application designed for AI conversations. It features a robust plugin system, session record saving using IndexDB for local data security, multiple session modes, improved UI experience, and supports one-click deployment to various platforms.",
+  "tags": [
+    "AI",
+    "Chat",
+    "UI",
+    "Plugin System",
+    "Session Record",
+    "Deployment"
+  ],
+  "repository": "https://github.com/anse-app/anse",
+  "image": "https://hub.docker.com/r/ddiu8081/anse",
+  "supported_architectures": [
+    "amd64",
+    "386",
+    "arm64",
+    "arm"
+  ]
+}
