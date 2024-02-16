@@ -44,7 +44,7 @@ for (const file of servapps) {
   }
     //RunTipi Format
     const ThirdIconSource = `https://lilkidsuave.github.io/asteroidsinthecosmos/servapps/${file}/metadata/logo.jpg`;
-    if (fs.existsSync(`./servapps/${file}/metadata/logo.jpg`)) {
+    if (fs.existsSync(`./servapps/${file}/logo.jpg`)) {
       servapp.icon = ThirdIconSource;
      }
     //Common Format,used by most
