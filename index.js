@@ -9,9 +9,6 @@ const servapps = fs.readdirSync('./servapps').filter(file => fs.lstatSync(`./ser
 let servappsJSON = []
 for (const file of servapps) {
   try {
-    if (fs.existsSync(`./servapps/${file}/description.json`)) {
-        const servapp = JSON.parse(fs.readFileSync(`./servapps/${file}/description.json`));
-    }
     const servapp = JSON.parse(fs.readFileSync(`./servapps/${file}/description.json`));
     servapp.id = file;
     servapp.screenshots = [];
