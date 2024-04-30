@@ -1,0 +1,9 @@
+{
+    "name": "Rss",
+    "longDescription": "Rss",
+    "description": "Rss",
+    "tags": "RSS", "self-hosted", "linux"],
+    "repository": "https://quay.io/repository/hiepnv/acunetix/",
+    "image": "https://quay.io/repository/hiepnv/acunetix/",
+    "supported_architectures": ["amd64","arm64"]
+}
